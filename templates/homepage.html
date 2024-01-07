@@ -9,7 +9,7 @@
   </div>
 </div>
 <table style="width:80%; margin:auto;" id="myTable"
-  class="table table table-hover text-center mt-3 table-light table-striped">
+  class="table table-hover text-center mt-3 table-light table-striped">
   <thead>
     <tr class="table-primary">
       <th scope="col">SNo</th>
@@ -21,7 +21,7 @@
   </thead>
   <tbody>
     {% for data in results %}
-    <tr>
+    <tr data-url='ruledef/edit/{{data.id}}'>
       <td>{{forloop.counter}}</td>
       <td>{{data.supergroup}}</td>
       <td>{{data.group}}</td>

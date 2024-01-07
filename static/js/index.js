@@ -1,28 +1,14 @@
 // Select2
 $(document).ready(function () {
 	$(".js-example-basic-single").select2();
+	$("#cname").select2();
+	$("#select1").select2();
+	$("#select2").select2();
+	$("#select3").select2();
+	$("#select4").select2();
+	$("#select5").select2();
+	$("#select6").select2();
 });
-
-// $(function () {
-//   $("table.table1 tr").click(function () {
-//     window.location.href = $(this).data("url");
-//   });
-// });
-
-// Currenly active link in navbar
-var btnContainer = document.getElementById("sidebar");
-
-if (btnContainer) {
-	var btns = btnContainer.getElementsByClassName("nav-link");
-
-	for (var i = 0; i < btns.length; i++) {
-		btns[i].addEventListener("click", function () {
-			var current = document.getElementsByClassName("active");
-			current[0].className = current[0].className.replace(" active", "");
-			this.className += " active";
-		});
-	}
-}
 
 function display_array() {
 	var e = "<hr/>";
@@ -95,17 +81,11 @@ $select6.on("change", function () {
 });
 // Select2
 $(document).ready(function () {
-	$("#cname").select2();
-	$("#select1").select2();
-	$("#select2").select2();
-	$("#select3").select2();
-	$("#select4").select2();
-	$("#select5").select2();
-	$("#select6").select2();
+	
 });
 
 $(function () {
-	$("table.table tr").click(function () {
+	$("table tr").click(function () {
 		window.location.href = $(this).data("url");
 	});
 });

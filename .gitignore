@@ -1,1 +1,4 @@
 /without_audio.mp4
+**/__pycache__/
+**/*.pyc
+migrations/
