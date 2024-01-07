@@ -1,0 +1,96 @@
+{% extends 'base.html' %} {% block body %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+<style>
+  .pw {
+    -webkit-text-security: disc;
+}
+</style>
+
+<h3>
+  <small
+    style="padding-left: 25px"
+    class="navbar navbar-light bg-light text-muted"
+    >Role Master</small
+  >
+</h3>
+
+<a
+  class="btn btn-outline-dark ml-4"
+  data-toggle="collapse"
+  href="#collapseExample"
+  role="button"
+  aria-expanded="false"
+  aria-controls="collapseExample"
+>
+  Add New User
+</a>
+
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    <form action={% url 'add_user' %} method='POST' autocomplete="off">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input required
+          type="text"
+          class="form-control"
+          name="username"
+          placeholder="Enter Username"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input required
+          type="password"
+          class="form-control"
+          name="password"
+          placeholder="Password"
+        />
+      </div>
+      <label>Country</label>
+      <select required name="country" class="form-control mb-3 js-example-basic-single" required id="cname">
+        <option selected disabled="true">Choose Country</option>
+        {% for datadisplay in country %}
+        <option>{{datadisplay}}</option>
+        {% endfor %}
+      </select>
+      </div>
+      <button type="submit" class="btn btn-primary ml-4">Submit</button>
+    </form>
+  </div>
+</div>
+<h3>
+  <small
+    style="padding-left: 25px"
+    class="navbar navbar-light bg-light text-muted mt-2"
+    >Existing Users</small
+  >
+</h3>
+<table style="width:80%;margin: auto;" class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Username</th>
+      <th scope="col">Password</th>
+      <th scope="col">Role</th>
+      <th scope="col">Country</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for user in users %}
+    <tr  href="rolemaster">
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{user.Username}}</td>
+      <td><div class="pw">{{user.Password}}</div></td>
+      <td>Admin</td>
+      <td>{{user.CountryCode}}</td>
+      
+      </form> </td>
+    </tr>
+  {% endfor %}  
+  </tbody>
+</table>
+<script src="static/js/index2.js"></script>
+<script src="static/js/index.js"></script>
+
+{% endblock body %}

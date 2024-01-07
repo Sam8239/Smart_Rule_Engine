@@ -1,0 +1,241 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% extends 'base.html' %}
+{% block body %}
+<h3><small style="padding-left:30px" class="navbar navbar-light bg-light text-muted">Character Definition</small></h3>
+<form action={% url 'add_paramdef' %} method='POST' autocomplete="off" class="row g-3 m-3">
+  {% csrf_token %}
+  <!-- {% comment %} <div class="form-group">
+
+  <input type="text" class="form-control" name="psupergroup" placeholder="Enter SuperGroup">
+  </div> {% endcomment %} -->
+  
+  <div class="container">
+    <label for="supergroup">SuperGroup</label>
+    <select required id="supergroup" name="psupergroup" class="form-select js-example-tags" required>
+      <option selected disabled="true">--Select Super Group--</option>
+      {% for dataitem in supergroup %}
+      <option value="{{dataitem.id}}">{{dataitem.supergroup}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="container">
+    <label for="group">Group</label>
+        <select required id="group" name="pgroup" class="form-select js-example-tags" required disabled>
+          <option selected disabled="true">Select Group</option>
+          {% for dataitem in group %}
+          <option value="{{dataitem.sid_id}}" selected disabled></option>
+          <option id="{{dataitem.id}}" value="{{dataitem.sid_id}}">{{dataitem.group}}</option>
+          {% endfor %}
+        </select>
+  </div>
+  <div class="container">
+    <label for="module">Module</label>
+    <select required id="module" name="pmodule" class="form-select js-example-tags" required disabled>
+      <option selected disabled="true">Select Module</option>
+      {% for dataitem in module %}
+      <option value="{{dataitem.gid_id}}" selected disabled></option>
+      <option class="{{dataitem.id}}" value="{{dataitem.gid_id}}">{{dataitem.module}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="container">
+    <label for="class">Class</label>
+    <select required id="pclass" name="pclass" class="form-select js-example-tags" required disabled>
+      <option selected disabled="true">Select Class</option>
+      {% for dataitem in pclass %}
+      <option value="{{dataitem.mid_id}}" selected disabled></option>
+      <option value="{{dataitem.mid_id}}">{{dataitem.pclass}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  {% if messages %}
+    {% for msg in messages %}
+    <b class="mt-3 ml-3" style="color: red;">{{msg}}</b>
+    {% endfor %}
+    {% endif %}
+  <div class="container">
+    <button type="submit" class="btn btn-primary">Save</button>
+  </div>
+</form>
+<h3><small style="padding-left:30px" class="navbar navbar-light bg-light text-muted">Edit Existing Characters</small>
+</h3>
+<div class="m-4">
+  <button class="btn btn-outline-dark" type="button" data-toggle="collapse" data-target="#collapseExample1"
+    aria-expanded="false" aria-controls="collapseExample1">
+    Remove A SuperGroup
+  </button>
+  <button class="btn btn-outline-dark" type="button" data-toggle="collapse" data-target="#collapseExample2"
+    aria-expanded="false" aria-controls="collapseExample2">
+    Remove A Group
+  </button>
+  <button class="btn btn-outline-dark" type="button" data-toggle="collapse" data-target="#collapseExample3"
+    aria-expanded="false" aria-controls="collapseExample3">
+    Remove A Module
+  </button>
+  <!-- <button class="btn btn-outline-dark" type="button" data-toggle="collapse" data-target="#collapseExample4"
+    aria-expanded="false" aria-controls="collapseExample4">
+    Remove A Class
+  </button> -->
+</div>
+<div class="collapse" id="collapseExample1">
+  <div class="card card-body">
+    <form action={% url 'del_sg' %} method='POST' autocomplete="off" class="row g-3 m-3">
+      {% csrf_token %}
+      <div class="">
+        <label for="supergroup">SuperGroup</label>
+        <select name="psupergroup" class="form-control js-example-tags">
+          <option selected="selected" disabled="True">SuperGroup</option>
+          {% for dataitem in supergroup %}
+          <option value="{{dataitem.supergroup}}">{{dataitem.supergroup}} </option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-danger ml-5">Delete</button>
+      </div>
+  </div>
+  </form>
+</div>
+</div>
+
+<div class="collapse" id="collapseExample2">
+  <div class="card card-body">
+    <form action={% url 'del_g' %} method='POST' autocomplete="off" class="row g-3 m-3">
+      {% csrf_token %}
+      <div>
+        {% comment %} <label for="supergroup">SuperGroup</label>
+        <select name="psupergroup" class="form-control js-example-tags p-2 m-2">
+          <option selected="selected" disabled="True">SuperGroup</option>
+          {% for dataitem in supergroup %}
+          <option value="{{dataitem.supergroup}}">{{dataitem.supergroup}} </option>
+          {% endfor %}
+        </select> {% endcomment %}
+        <label class="ml-5" for="group">Group</label>
+        <select name="pgroup" class="form-control js-example-tags">
+          <option selected="selected">Group</option>
+          {% for dataitem in group %}
+          <option value="{{dataitem.group}}">{{dataitem.group}}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-danger ml-5">Delete</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="collapse" id="collapseExample3">
+  <div class="card card-body">
+    <form action={% url 'del_m' %} method='POST' autocomplete="off" class="row g-3 m-3">
+      {% csrf_token %}
+      <div>
+        {% comment %} <label for="supergroup">SuperGroup</label>
+        <select name="psupergroup" class="form-control js-example-tags p-2 m-2">
+          <option selected="selected" disabled="True">SuperGroup</option>
+          {% for dataitem in supergroup %}
+          <option value="{{dataitem.supergroup}}">{{dataitem.supergroup}} </option>
+          {% endfor %}
+        </select>
+
+        <label class="ml-5" for="group">Group</label>
+        <select name="pgroup" class="form-control js-example-tags">
+          <option selected="selected">Group</option>
+          {% for dataitem in group %}
+          <option value="{{dataitem.group}}">{{dataitem.group}}</option>
+          {% endfor %}
+        </select> {% endcomment %}
+
+        <label class="ml-5" for="module">Module</label>
+        <select name="pmodule" class="form-control js-example-tags">
+          <option selected="selected">Module</option>
+          {% for dataitem in module %}
+          <option value="{{dataitem.module}}">{{dataitem.module}}</option>
+          {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-danger ml-5">Delete</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- <div class="collapse" id="collapseExample4">
+  <div class="card card-body">
+    afhiaudh
+  </div>
+</div> -->
+<h3><small style="padding-left:30px" class="navbar navbar-light bg-light text-muted">Existing Characters</small></h3>
+<table id="myTable" class="table" style="width:80%; margin:auto">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">SuperGroup</th>
+      <th scope="col">Group</th>
+      <th scope="col">Module</th>
+      <th scope="col">Class</th>
+      <th scope="col">Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for param in params %}
+    <tr href="charmap">
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{param.supergroup}}</td>
+      <td>{{param.group}}</td>
+      <td>{{param.module}}</td>
+      <td>{{param.pclass}}</td>
+      <td>
+        <form action="{% url 'del_paramdef' param.id %}" method="POST" class=" d-inline">
+          {% csrf_token %}
+          <button class="btn" type="submit"><i class="fa fa-trash text-danger float-right"></i></button>
+
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+  $(document).ready(function () {
+    var $supergroup = $('#supergroup'),
+      $group = $('#group'),
+      $module = $('#module'),
+      $pclass = $('#pclass'),
+      $options = $group.find('option'),
+      $options1 = $module.find('option'),
+      $options2 = $pclass.find('option');
+
+    $supergroup.on('change', function () {
+      $module.attr("disabled", true);
+      $pclass.attr("disabled", true);
+      $group.attr("disabled", false);
+      $group.html($options.filter('[value="' + this.value + '"]'));
+      $module.html($options1.filter('[value="' + this.value + '"]'));
+      $pclass.html($options2.filter('[value="' + this.value + '"]'));
+
+    });
+    // Trigger For Group
+    $group.on('change', function () {
+      value = $("#group :selected").attr('id');
+      $module.attr("disabled", true);
+      $pclass.attr("disabled", true);
+      $module.attr("disabled", false);
+      $module.html($options1.filter('[value="' + value + '"]'));
+      $pclass.html($options2.filter('[value="' + this.value + '"]'));
+    });
+
+    $module.on('change', function () {
+      value = $("#module :selected").attr('class');
+      $pclass.attr("disabled", false);
+      $pclass.html($options2.filter('[value="' + value + '"]'));
+    });
+    // Table Search Starts
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tbody tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+    // Table Search Ends
+  });
+
+</script>
+{% endblock body %}

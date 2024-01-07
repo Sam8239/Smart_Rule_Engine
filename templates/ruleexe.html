@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block body %}
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+<h3><small style="padding-left:30px" class="navbar navbar-light bg-light text-muted">Rule Execution</small></h3>
+<form class="container-fluid" action="" method="POST">
+  {% csrf_token %}
+  <div class="row m-2">
+    <div class="col-sm m-1 ">
+      <label class="mt-1 mb-0 py-0 px-0" for="supergroup">
+        <h6>Select SuperGroup</h6>
+      </label>
+      <select id="supergroup" name="supergroup" class="form-select js-example-tags" required>
+        <option selected disabled="true">--Select Super Group--</option>
+        {% for dataitem in supergroup %}
+        <option value="{{dataitem.id}}">{{dataitem.supergroup}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-sm m-1">
+      <label class="mt-1 mb-0 py-0 px-0" for="group">
+        <h6>Select Group</h6>
+      </label>
+      <select id="group" name="group" class="form-select js-example-tags" required disabled>
+        <option selected disabled="true">Select Group</option>
+        {% for dataitem in group %}
+        <option value="{{dataitem.sid_id}}" selected disabled></option>
+        <option id="{{dataitem.id}}" value="{{dataitem.sid_id}}">{{dataitem.group}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="row m-2">
+    <div class="col-sm m-1">
+      <label class="mt-1 mb-0 py-0 px-0" for="module">
+        <h6>Select Module</h6>
+      </label>
+      <select id="module" name="module" class="form-select js-example-tags" required disabled>
+        <option selected disabled="true">Select Module</option>
+        {% for dataitem in module %}
+        <option value="{{dataitem.gid_id}}" selected disabled></option>
+        <option class="{{dataitem.id}}" value="{{dataitem.gid_id}}">{{dataitem.module}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="row m-2">
+    <div class="col-sm m-1 ">
+      <label class="mt-1 mb-0 py-0 px-0" for="class">
+        <h6>Select Class</h6>
+      </label>
+      <select id="pclass" name="pclass" class="form-select js-example-tags" required disabled>
+        <option selected disabled="true">Select Class</option>
+        {% for dataitem in pclass %}
+        <option class="{{dataitem.mid_id}}" selected disabled></option>
+        <option class="{{dataitem.mid_id}}" value="{{dataitem.id}}">{{dataitem.pclass}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="row text-center m-2">
+    <label class="col-2 mt-4 mb-0 py-0 px-0" for="assignedChar">
+      <h4>Input Data</h4>
+    </label>
+    <div class="col-3 custom-file mt-4">
+      <input type="file"  class="custom-file-input" id="customFile">
+      <label class="custom-file-label" for="customFile">Choose file</label>
+    </div>
+    <!-- <div class="mt-5 col-2">   -->
+    <h5 class="col-2 mt-4">OR</h5>
+    <!-- </div> -->
+    <div class="col-5">
+      <textarea required id="input_text" name="input_text" class="form-control" type="text" placeholder="Input Text" rows="4"></textarea>
+    </div>
+  </div>
+  
+  <div class="text-center mt-3">
+    <button type="submit" onclick="" class="btn btn-primary w-25">
+      Show Results
+    </button>
+  </div>
+</form>
+<div class="m-3 d-flex justify-content-center">
+      {% if messages %}
+      {% for msg in messages %}
+      <b  style="color: red;">{{msg}}</b>
+      {% endfor %}
+      {% endif %}
+      </div>
+<script>
+  $(document).ready(function () {
+    var $supergroup = $('#supergroup'),
+      $group = $('#group'),
+      $module = $('#module'),
+      $pclass = $('#pclass'),
+      $asschar = $('#assignedChar'),
+      $ruletype = $('#ruletype'),
+      $options = $group.find('option'),
+      $options1 = $module.find('option'),
+      $options2 = $pclass.find('option');
+    $options3 = $asschar.find('option');
+
+    $ruletype.on("change", function () {
+      value = $("#ruletype :selected").val(); // The value of the selected option
+      $("#exampleModalLabel").text(value);
+    });
+
+    $supergroup.on('change', function () {
+      $group.attr("disabled", false);
+      document.getElementById("group").selectedIndex = "1";
+      $group.html($options.filter('[value="' + this.value + '"]'));
+
+    });
+    // Trigger For Group
+    $group.on('change', function () {
+      value = $("#group :selected").attr('id');
+      // console.log(value);
+      $module.attr("disabled", false);
+      // document.getElementById("mySelect").selectedIndex = "1";
+      $module.html($options1.filter('[value="' + value + '"]'));
+    });
+
+    $module.on('change', function () {
+      value = $("#module :selected").attr('class');
+      // console.log(value);
+      $pclass.attr("disabled", false);
+      $pclass.html($options2.filter('[class="' + value + '"]'));
+    });
+    // Table Search Starts
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tbody tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+    // Table Search Ends
+  });
+</script>
+
+<!-- Json -->
+
+<script>
+  
+</script>
+{% endblock body %}

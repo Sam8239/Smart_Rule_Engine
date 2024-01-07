@@ -1,0 +1,21 @@
+{"rule_types" : [
+    "Matcher",
+    "Regex",
+    "Position",
+    "Format",
+    "Default"
+    ],
+    "param_type": [
+        "Nature",
+        "Base Char",
+        "Scope",
+        "Category",
+        "Value List",
+        "Mandatory"
+    ],
+    "country" : ["IN",
+        "US",
+        "UK",
+        "DE"
+    ]
+}

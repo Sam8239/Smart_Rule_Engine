@@ -1,0 +1,335 @@
+{% extends 'base.html' %} {% block title %}Char Mapping{% endblock title %} 
+{% block body %}
+
+
+<style>
+  .modal-body label {
+    width: 40%;
+  }
+</style>
+<h3>
+  <small
+    style="padding-left: 30px"
+    class="navbar navbar-light bg-light text-muted"
+    >Character Mapping Edit</small
+  >
+</h3>
+
+<div class="row m-0">
+  <div class="col-lg-12 p-0">
+    <div class="container d-inline-block">
+      <form>
+        <div class="row mb-4 mt-3">
+          <div class="d-flex col-6">
+            <label class="w-25">Super Group</label>
+            <select
+              name="supergroup"
+              class="form-select"
+              required
+              disabled="true"
+            >
+              <option value="{{editrec.id}}">{{editrec.supergroup}}</option>
+            </select>
+          </div>
+          <div class="d-flex col-6">
+            <label class="w-25">Group</label>
+            <select name="group" class="form-select" required disabled="true">
+              <option value="{{editrec.id}}">{{editrec.group}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex row">
+          <div class="d-flex col-6">
+            <label class="w-25">Module</label>
+            <select name="module" class="form-select" required disabled="true">
+              <option value="{{editrec.id}}">{{editrec.module}}</option>
+            </select>
+          </div>
+          <div class="d-flex col-6">
+            <label class="w-25">Class</label>
+            <select name="class" class="form-select" required disabled="true">
+              <option value="{{editrec.id}}">{{editrec.pclass}}</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div>
+      <!-- Button trigger modal Starts-->
+      <button
+        type="button"
+        class="
+          btn btn-light
+          text-primary
+          border border-primary
+          rounded
+          mt-5
+          ms-4
+        "
+        data-bs-toggle="modal"
+        data-bs-target="#addNewEntryModal"
+      >
+        ADD NEW ENTRY
+      </button>
+      <!-- Button trigger modal Ends-->
+      
+      <!-- Modal Starts-->
+      <div
+        class="modal fade"
+        id="addNewEntryModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-hidden="true"
+        aria-labelledby="addNewEntryModalTitle"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addNewEntryTitle">ADD NEW ENTRY</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form method="POST">
+                {% csrf_token %}
+                <!-- Add Assigned Char Starts -->
+                <div class="d-flex mb-3">
+                  <label
+                    class="d-flex justify-content-center align-items-center"
+                    >Assigned Char</label
+                  >
+                  <select name="assignedChar" class="form-select w-50" required>
+                    <option selected disabled="true">Assigned Char</option>
+                    {% for datadisplay in assignedChar %}
+                    <option value="{{datadisplay.AssChar}}">
+                      {{datadisplay.AssChar}}
+                    </option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="d-flex mb-3">
+                  <label
+                    class="d-flex justify-content-center align-items-center"
+                    >Nature</label
+                  >
+                  {% for dataitem in nature %}
+                  <div class="form-check form-check-inline">
+                    <input
+                      value="{{dataitem.pDesc}}"
+                      class="form-check-input"
+                      type="radio"
+                      name="nature"
+                      id="nature"
+                      required
+                    />
+                    <label class="form-check-label" for="nature"
+                      >{{dataitem.pDesc}}</label
+                    >
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="d-flex mb-3">
+                  <label
+                    class="d-flex justify-content-center align-items-center"
+                    >Base Char</label
+                  >
+                  <select
+                    name="basechar"
+                    class="form-select w-50"
+                    required
+                    id="basechar"
+                  >
+                    <option selected disabled="true">Base Character</option>
+                    {% for dataitem in baseChar %}
+                    <option>{{dataitem.pDesc}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="d-flex mb-3">
+                  <label
+                    class="d-flex justify-content-center align-items-center"
+                    for="exampleFormControlInput1"
+                    >Scope</label
+                  >
+                  {% for dataitem in scope %}
+                  <div class="form-check form-check-inline">
+                    <input
+                      value="{{dataitem.pDesc}}"
+                      value="{{dataitem.pDesc}}"
+                      class="form-check-input"
+                      type="radio"
+                      name="pscope"
+                      id="inlineRadio1"
+                      required
+                    />
+                    <label class="form-check-label" for="inlineRadio1"
+                      >{{dataitem.pDesc}}</label
+                    >
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="d-flex mb-3">
+                  <label
+                    class="d-flex justify-content-center align-items-center"
+                    for="exampleFormControlInput1"
+                    >Category</label
+                  >
+                  {% for dataitem in category %}
+                  <div class="form-check form-check-inline">
+                    <input
+                      value="{{dataitem.pDesc}}"
+                      class="form-check-input"
+                      type="radio"
+                      name="category"
+                      id="inlineRadio1"
+                      required
+                    />
+                    <label class="form-check-label" for="inlineRadio1"
+                      >{{dataitem.pDesc}}</label
+                    >
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="d-flex mb-3">
+                  <label
+                    class="d-flex justify-content-center align-items-center"
+                    >Value List</label
+                  >
+                  {% for dataitem in valueList %}
+                  <div class="form-check form-check-inline">
+                    <input
+                      value="{{dataitem.pDesc}}"
+                      class="form-check-input"
+                      type="radio"
+                      name="valuelist"
+                      id="inlineRadio1"
+                      required
+                    />
+                    <label class="form-check-label" for="inlineRadio1"
+                      >{{dataitem.pDesc}}</label
+                    >
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="d-flex">
+                  <label
+                    class="d-flex justify-content-center align-items-center"
+                    for="exampleFormControlInput1"
+                    >Mandatory</label
+                  >
+                  {% for dataitem in mandatory %}
+                  <div class="form-check form-check-inline">
+                    <input
+                      value="{{dataitem.pDesc}}"
+                      class="form-check-input"
+                      type="radio"
+                      name="mandatory"
+                      id="inlineRadio1"
+                      required
+                    />
+                    <label class="form-check-label" for="inlineRadio1"
+                      >{{dataitem.pDesc}}</label
+                    >
+                  </div>
+                  {% endfor %}
+                </div>
+
+                <!-- Add Assigned Char Ends -->
+                <div class="modal-footer d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary w-25">
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary w-25"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Ends-->
+      <div class="m-3">
+      {% if messages %}
+      {% for msg in messages %}
+      <b  style="color: red;">{{msg}}</b>
+      {% endfor %}
+      {% endif %}
+      </div>
+      <!-- Table Starts -->
+      
+      <table
+        class="table  text-center mt-3 table-light table-striped"
+      >
+        <thead style="color: blue">
+          <tr
+            class="table-primary"
+          >
+            <th scope="col">Assigned Char</th>
+            <th scope="col">Char Nature</th>
+            <th scope="col">Base Char</th>
+            <th scope="col">Char Scope</th>
+            <th scope="col">Char Category</th>
+            <th scope="col">Mandatory (Y/N)</th>
+            <th scope="col">ValueListExist (Y/N)</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in results %}
+          <tr >
+            <td>{{data.CharName}}</td>
+            <td>{{data.CharNature}}</td>
+            <td>{{data.BaseChar}}</td>
+            <td>{{data.CharScope}}</td>
+            <td>{{data.CharCategory}}</td>
+            <td>{{data.Mandatory}}</td>
+            <td>{{data.ValueList}}</td>
+            <td><a
+                href="http://127.0.0.1:8000/charmap/edit/{{data.Charmaster_fk_id}}/{{data.id}}"
+                ><button type="button" class="btn btn-primary">Delete</button></a>
+      </td>
+            {% comment %} <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Delete
+</button>
+              <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confim Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the entry ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a
+                href="http://127.0.0.1:8000/charmap/edit/{{data.Charmaster_fk_id}}/{{data.id}}"
+                ><button type="button" class="btn btn-primary">Delete</button></a>
+      </div> {% endcomment %}
+    </div>
+  </div>
+</div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+      <!-- Table Ends -->
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

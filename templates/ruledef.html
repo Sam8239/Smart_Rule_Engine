@@ -1,0 +1,263 @@
+{% extends 'base.html' %} {% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+<h3><small style="padding-left:30px" class="navbar navbar-light bg-light text-muted">Rules Definition</small></h3>
+<form action="" method='POST'>
+  {% csrf_token %}
+  <div class="row m-2">
+    <div class="card col-sm m-1 ">
+      <label class="mt-1 mb-0 py-0 px-0" for="supergroup">
+        <h6>Select SuperGroup</h6>
+      </label>
+      <select id="supergroup" name="supergroup" class="form-select js-example-tags" required onchange="sg_text(this)">
+        <option selected disabled="true">--Select Super Group--</option>
+        {% for dataitem in supergroup %}
+        <option value="{{dataitem.id}}">{{dataitem.supergroup}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="card col-sm m-1 ">
+      <label class="mt-1 mb-0 py-0 px-0" for="group">
+        <h6>Select Group</h6>
+      </label>
+      <select id="group" name="group" class="form-select js-example-tags" required disabled onchange="g_text(this)">
+        <option selected disabled="true">Select Group</option>
+        {% for dataitem in group %}
+        <option value="{{dataitem.sid_id}}" selected disabled></option>
+        <option id="{{dataitem.id}}" value="{{dataitem.sid_id}}">{{dataitem.group}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <!-- <div class="card col-sm m-1">
+      <label class="mt-1 mb-0 py-0 px-0" for="module">
+        <h6>Select Module</h6>
+      </label>
+      <select id="module" name="module" class="form-select js-example-tags" required disabled>
+        <option selected disabled="true">Select Module</option>
+        {% for dataitem in module %}
+        <option value="{{dataitem.id}}" selected>--Select Module--</option>
+        <option class="{{dataitem.id}}" value="{{dataitem.gid_id}}">{{dataitem.module}}</option>
+        {% endfor %}
+      </select>
+    </div> -->
+  </div>
+  <div class="row m-2">
+    <div class="card col-sm m-1">
+      <label class="mt-1 mb-0 py-0 px-0" for="module">
+        <h6>Select Module</h6>
+      </label>
+      <select id="module" name="module" class="form-select js-example-tags" required disabled onchange="m_text(this)">
+        <option selected disabled="true">Select Module</option>
+        {% for dataitem in module %}
+        <option value="{{dataitem.gid_id}}" selected disabled></option>
+        <option class="{{dataitem.id}}" value="{{dataitem.gid_id}}">{{dataitem.module}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="row m-2">
+    <div class="card col-sm m-1 ">
+      <label class="mt-1 mb-0 py-0 px-0" for="class">
+        <h6>Select Class</h6>
+      </label>
+      <select id="pclass" name="pclass" class="form-select js-example-tags" required disabled onchange="pc_text(this)">
+        <option selected disabled="true">Select Class</option>
+        {% for dataitem in pclass %}
+        <option class="{{dataitem.mid_id}}" value="{{dataitem.id}}" selected disabled></option>
+        <option class="{{dataitem.mid_id}}" value="{{dataitem.id}}">{{dataitem.pclass}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <!-- <div class="card col-sm m-1">
+      <label class="mt-1 mb-0 py-0 px-0" for="assignedChar">
+        <h6>Select Assigned Char</h6>
+      </label>
+      <select id="assignedChar" name="assignedChar" class="form-select js-example-tags" required disabled>
+        <option selected disabled="true">Assigned Char</option>
+        {% for datadisplay in assignedChar %}
+        <option value="{{datadisplay.Charmaster_fk_id}}" selected>--Select Assigned Char--</option>
+        <option value="{{datadisplay.Charmaster_fk_id}}">{{datadisplay.CharName}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="card col-sm m-1">
+      <label class="mt-1 mb-0 py-0 px-0" for="ruletype">
+        <h6>Select Rule Type</h6>
+      </label>
+      <select id="ruletype" name="ruletype" class="form-select js-example-tags" required>
+        <option selected disabled="true">--Select Rule Type--</option>
+        <option>Matcher</option>
+        <option>Regex</option>
+        <option>Data Format</option>
+        <option>Position</option>
+      </select>
+    </div> -->
+  </div>
+  <div class="m-3">
+      {% if messages %}
+      {% for msg in messages %}
+      <b  style="color: red;">{{msg}}</b>
+      {% endfor %}
+      {% endif %}
+      </div>
+  <button type="submit" class="btn btn-primary ml-4 col-sm-2" onclick="save_pclass()">
+    Proceed
+  </button>
+</form>
+<!-- onclick="window.location.href='ruledef/edit/{{pclassid}}'" -->
+<!-- <table class="table table table-hover text-center mt-3 table-light table-striped">
+  <thead>
+    <tr class="table-primary">
+      <th scope="col">S.No</th>
+      <th scope="col">Characteristics</th>
+      <th scope="col">Default Value</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Calorie</td>
+      <td>No Claim</td>
+      <td><button type="button" class="btn btn-primary">Create Rule</button></td>
+    </tr>
+  </tbody>
+</table> -->
+<script>
+  var sg_text_var,
+    g_text_var, m_text_var, pc_text_var;
+
+  function sg_text(txt) {
+    sg_text_var = txt.options[txt.selectedIndex].text;
+    console.log(sg_text_var);
+  }
+  function g_text(txt) {
+    g_text_var = txt.options[txt.selectedIndex].text;
+    console.log(g_text_var);
+  }
+  function m_text(txt) {
+    m_text_var = txt.options[txt.selectedIndex].text;
+    console.log(m_text_var);
+  }
+  function pc_text(txt) {
+    pc_text_var = txt.options[txt.selectedIndex].text;
+    console.log(pc_text_var);
+  }
+  $(document).ready(function () {
+    var $supergroup = $('#supergroup'),
+      $group = $('#group'),
+      $module = $('#module'),
+      $pclass = $('#pclass'),
+      $asschar = $('#assignedChar'),
+      $ruletype = $('#ruletype'),
+      $options = $group.find('option'),
+      $options1 = $module.find('option'),
+      $options2 = $pclass.find('option'),
+      $options3 = $asschar.find('option');
+
+    $ruletype.on("change", function () {
+      value = $("#ruletype :selected").val(); // The value of the selected option
+      $("#exampleModalLabel").text(value);
+    });
+
+    $supergroup.on('change', function (txt) {
+      $group.attr("disabled", false);
+      $group.html($options.filter('[value="' + this.value + '"]'));
+      
+    });
+    // Trigger For Group
+    $group.on('change', function () {
+      value = $("#group :selected").attr('id');
+      // console.log(value);
+      $module.attr("disabled", false);
+      $module.html($options1.filter('[value="' + value + '"]'));
+    });
+
+    $module.on('change', function () {
+      value = $("#module :selected").attr('class');
+      // console.log(value);
+      $pclass.attr("disabled", false);
+      $pclass.html($options2.filter('[class="' + value + '"]'));
+    });
+
+    // $pclass.on('change', function () {
+    //   value = $("#pclass :selected").attr('class');
+    //   // console.log(value);
+    //   $asschar.attr("disabled", false);
+    //   $asschar.html($options3.filter('[value="' + value + '"]'));
+    // });
+    // Table Search Starts
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tbody tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+    // Table Search Ends
+  });
+
+  // Reference Values
+  var intTextBox = 0;
+  function addElement() {
+    intTextBox++;
+    var objNewDiv = document.createElement("div");
+    objNewDiv.setAttribute("id", "div_" + intTextBox);
+    objNewDiv.innerHTML =
+      "Textbox " +
+      intTextBox +
+      ': <input type="text" id="tb_' +
+      intTextBox +
+      '" name="tb_' +
+      intTextBox +
+      '"/>';
+    document.getElementById("content").appendChild(objNewDiv);
+  }
+
+  function removeElement() {
+    if (0 < intTextBox) {
+      document
+        .getElementById("content")
+        .removeChild(document.getElementById("div_" + intTextBox));
+      intTextBox--;
+    } else {
+      alert("No textbox to remove");
+    }
+  }
+
+  function display_array() {
+    var e = "<hr/>";
+
+    for (var y = 0; y < array.length; y++) {
+      e += "Element " + y + " = " + array[y] + "<br/>";
+    }
+    document.getElementById("Result").innerHTML = e;
+  }
+
+</script>
+<script>
+  function save_pclass() {
+   // var supergroup = $("#supergroup :selected").text;
+   // var group = $("#group :selected").attr("value");
+   // var pmodule = $("#module :selected").attr("value");
+   // var pclass = $("#pclass :selected").attr("value");
+    pclass_json = {
+      supergroup: sg_text_var,
+      group: g_text_var,
+      module: m_text_var,
+      pclass: pc_text_var
+    };
+    var pclass_rule = JSON.stringify(pclass_json);
+    console.log(pclass_rule);
+    $.ajax({
+      url: "{% url 'save_pclass' %}",
+      type: "POST",
+      dataType: "application/json",
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('X-CSRFToken', '{{csrf_token}}');
+      },
+      data: {
+        "pclass_json": pclass_rule
+      },
+    });
+  };
+</script>
+{% endblock body %}

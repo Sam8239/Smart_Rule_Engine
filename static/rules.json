@@ -1,0 +1,115 @@
+{
+    "rules": [
+        {
+            "supergroup": "Edible",
+            "group": "Flavoured",
+            "module": "Spicy",
+            "pclass": "Pickle",
+            "asschar": [
+                {
+                    "asschar_name": "Expiry Date",
+                    "rules_lst": [
+                        {
+                            "rule_type": "Format",
+                            "ref_val": "[\\d]{1,2}/[\\d]{1,2}/[\\d]{4}",
+                            "extract": "all",
+                            "logop": "NA"
+                        }
+                    ]
+                },
+                {
+                    "asschar_name": "Price",
+                    "rules_lst": [
+                        {
+                            "rule_type": "Position",
+                            "ref_val": {
+                                "key_val": "Price",
+                                "start_pos": "4",
+                                "char_nos": "2"
+                            },
+                            "logop": "NA"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "supergroup": "Edible",
+            "group": "Flavoured",
+            "module": "Spicy",
+            "pclass": "Sauce",
+            "asschar": [
+                {
+                    "asschar_name": "Price",
+                    "rules_lst": [
+                        {
+                            "rule_type": "Position",
+                            "ref_val": {
+                                "key_val": "Price",
+                                "start_pos": "4",
+                                "char_nos": "2"
+                            },
+                            "extract": "all",
+                            "logop": "NA"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "supergroup": "Edible",
+            "group": "Flavoured",
+            "module": "Spicy",
+            "pclass": "Ketchup",
+            "asschar": [
+                {
+                    "asschar_name": "Calories",
+                    "rules_lst": [
+                        {
+                            "rule_type": "Matcher",
+                            "ref_val": [
+                                "low calories",
+                                "no calories"
+                            ],
+                            "extract": "all",
+                            "logop": "NA"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "supergroup": "Edible",
+            "group": "Flavoured",
+            "module": "Spicy",
+            "pclass": "Curry",
+            "asschar": [
+                {
+                    "asschar_name": "Calories",
+                    "rules_lst": [
+                        {
+                            "rule_type": "Matcher",
+                            "ref_val": [
+                                "low calories",
+                                "zero calories"
+                            ],
+                            "extract": "all",
+                            "logop": "NA"
+                        }
+                    ]
+                },
+                {
+                    "asschar_name": "Expiry Date",
+                    "rules_lst": [
+                        {
+                            "rule_type": "Format",
+                            "ref_val": "[\\d]{1,2}/[\\d]{1,2}/[\\d]{4}",
+                            "extract": "all",
+                            "logop": "NA"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block body %}
+<script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src=" bootstrap.bundle.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<!-- Popper Js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
+
+<!-- Bootstrap CSS -->
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+<h3><small style="padding-left:30px" class="navbar navbar-light bg-light text-muted">Assigned Character Master</small></h3>
+
+<!-- Button trigger modal -->
+<form action={% url 'asschardef' %} method="POST">
+{% csrf_token %}
+  <div class="form-group m-4">
+    <label for="asschar">Assigned Character</label>
+    <input required type="text" class="form-control" name="asschar" id="asschar" placeholder="Eg. Price">
+  </div>
+  <button  type="submit" class="ml-4 btn btn-primary">Save</button>
+</form>
+{% endblock body %}

@@ -1,0 +1,636 @@
+{% extends 'base.html' %} {% block title %}Char Mapping{% endblock title %}
+{%block body %}
+
+<style>
+  .modal-body label {
+    width: 40%;
+  }
+</style>
+<h3>
+  <small style="padding-left: 30px" class="navbar navbar-light bg-light text-muted">Rule Definition Edit</small>
+</h3>
+
+<div class="row m-0">
+  <div class="p-0">
+    <div class="container-fluid">
+      {% comment %}
+      <form>
+        {% endcomment %}
+        <div class="row mb-4 mt-3">
+          <div class="d-flex col-6">
+            <label class="w-25">Super Group</label>
+            <select id="supergroup" name="supergroup" class="form-select" required disabled="true">
+              <option value="{{editrec.supergroup}}">
+                {{editrec.supergroup}}
+              </option>
+            </select>
+          </div>
+          <div class="d-flex col-6">
+            <label class="w-25">Group</label>
+            <select id="group" name="group" class="form-select" required disabled="true">
+              <option value="{{editrec.group}}">{{editrec.group}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex row">
+          <div class="d-flex col-6">
+            <label class="w-25">Module</label>
+            <select id="module" name="module" class="form-select" required disabled="true">
+              <option value="{{editrec.module}}">{{editrec.module}}</option>
+            </select>
+          </div>
+          <div class="d-flex col-6">
+            <label class="w-25">Class</label>
+            <select id="pclass" name="class" class="form-select" required disabled="true">
+              <option value="{{editrec.pclass}}">{{editrec.pclass}}</option>
+            </select>
+          </div>
+        </div>
+        {% comment %}
+      </form>
+      {% endcomment %}
+    </div>
+    {% comment %} {% if messages %}
+    {% for msg in messages %}
+    <b class="d-flex justify-content-center" style="color: red;">{{msg}}</b>
+    {% endfor %}
+    {% endif %} {% endcomment %}
+    <div>
+      <!-- Table Starts -->
+      <style>
+        body {
+          counter-reset: section;
+        }
+
+        #sno::before {
+          counter-increment: section;
+          content: counter(section);
+        }
+      </style>
+      {% if messages %} {% for message in messages %} {% if message.tags %}
+      <script>alert("{{ message }}")</script> {% endif %} {% endfor %} {% endif %}
+      <table class="
+          table table table-hover
+          text-center
+          mt-3
+          table-light table-striped
+        ">
+        <thead>
+          <tr class="table-primary">
+            <th scope="col">S.No</th>
+            <th scope="col">Characteristics</th>
+            <!-- <th scope="col">Default Value</th> -->
+            <!-- <th scope="col">Sample Output</th> -->
+            <th scope="col"></th>
+            <!-- <th scope="col"></th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in results %}
+          <tr>
+            <td id="sno"></td>
+            <td>{{data.CharName}}</td>
+            <!-- <td>{{data.DefaultValue}}</td> -->
+            <td>
+              <input type="hidden" id="asschar" class="asschar" name="asschar" value="{{data.CharName}}" />
+              <button id="{{forloop.counter}}" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#exampleModal" onclick="btn_id(this)">
+                Create Rule
+              </button>
+              <!-- Edit -->
+              <a href="{{data.Charmaster_fk_id}}/{{data.id}}"><button id="{{forloop.counter}}" type="button"
+                  class="btn btn-success" onclick="btn_id(this)">
+                  Edit
+                </button></a>
+              <!-- Delete -->
+              {% comment %} <a href="http://127.0.0.1:8000/ruledef/edit/{{data.id}}"><button id="{{forloop.counter}}"
+                  type="button" class="btn btn-danger" onclick="btn_id(this)">
+                  Delete
+                </button></a> {% endcomment %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- Table Ends -->
+    </div>
+  </div>
+</div>
+<!-- Create RuleModal Starts-->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content rulediv">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">CharName</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div id="reload_div">
+        <div class="modal-body" id="rule_modal">
+          <div class="mb-3 rule_type" id="ruletype_div">
+            Rule Type
+            <select id="rule_type" class="form-select">
+              <option>Select Rule Type</option>
+              {% for data in rule_type %}
+              <option value={{data}}>{{data}}</option>
+              {% endfor %}
+
+            </select>
+          </div>
+          <!--MATCHER-->
+          <div class="Matcher box card p-3" id="matcher_div">
+            <small id="" class="form-text text-muted">The Reference Values entered First shall be extracted
+              first</small>
+
+            <div id="items" class="form-group">
+              <div class="col-md-8 margin-bottom mb-1 mt-1">
+                <input required id="textinput" name="textinput" type="text" placeholder="Enter Reference Value"
+                  class="form-control reff input-md" />
+              </div>
+            </div>
+
+            <div class="ml-3">
+              <button id="add" class="btn-outline-secondary btn add-more" type="button">
+                + Add another reference Value
+              </button>
+              <button type="button" class="btn-outline-secondary delete btn" id="remove">
+                - Remove Value
+              </button>
+            </div>
+            {% comment %}
+            <button type="button" onclick="hideDiv()" class="btn btn-primary col-sm-4 m-3">
+              Save Values
+            </button>
+            {% endcomment %}
+          </div>
+          <!--REGEX-->
+          <div class="Regex box card p-3" id="regex_div">
+            <select id="regex" class="select p-2 mt-2 mb-2">
+              <option selected>Choose Pattern</option>
+              <option id="1" value="[+-]?([0-9]*[.])?[0-9]+(\s*)+">
+                Float number followed by a String
+              </option>
+              {% comment %} <option id="2" value="2">
+                String followed by a float number
+              </option> {% endcomment %}
+              <option id="2" value="[+-]?([0-9]*[.])?[0-9]+\s*+:+\s*+">
+                String followed by colon and float number
+              </option>
+              <option id="3" value="[+-]?([0-9]*[.])?[0-9]">
+                Only a Float Value | Leave the string input empty.
+              </option>
+            </select>
+            <div class="row">
+              <label class="col-sm-3 mt-2">Enter String</label>
+              <div class="col-sm-8 margin-bottom mb-1">
+                <input id="reg_str" name="reg_str" type="text" placeholder="Enter Reference Value"
+                  class="form-control input-md" />
+              </div>
+            </div>
+          </div>
+          <!--FORMAT-->
+          <div class="Format box card p-3" id="foramt_div">
+            <select id="format" class="select p-2 mt-2 mb-2">
+              <option selected>Choose Format</option>
+              <option id="1" value="[\d]{1,2}/[\d]{1,2}/[\d]{4}">
+                Date in DD/MM/YYYY
+              </option>
+              <option id="2" value="([0-9]{6}|[0-9]{3}\s[0-9]{3})">
+                Indian Postal Code
+              </option>
+              <option id="3" value="Tracking ID\:\s*(\w*)\s*">
+                Tracking ID:
+              </option>
+            </select>
+            <!-- <div class="row">
+            <label class="col-sm-3 mt-2">Enter String</label>
+            <div class="col-sm-8 margin-bottom mb-1">
+              <input id="reg_str" name="reg_str" type="text" placeholder="Enter Reference Value"
+                class="form-control input-md" />
+            </div>
+          </div>       -->
+            {% comment %}
+            <div>
+              <button class="btn btn-primary mt-3" type="button">
+                Add Rule
+              </button>
+            </div>
+            {% endcomment %}
+          </div>
+          <!--POSIITON-->
+          <div class="Position box card p-3" id="position_div">
+            <div class="form-group">
+              Key Value
+              <input required type="text" class="form-control" id="key_val" placeholder="Enter key value" />
+            </div>
+            <div class="form-group">
+              Start Position After Key Value
+              <input required type="number" class="form-control" id="start_pos"
+                placeholder="Enter Start Position Index Number" />
+            </div>
+            <div class="form-group">
+              Number of Characters to be Extracted
+              <input required type="number" class="form-control" id="char_nos"
+                placeholder="Enter Number of Characters" />
+            </div>
+          </div>
+          <!--DATATYPE-->
+          <div class="Datatype box card p-3" id="datatype_div">DataType</div>
+          <!--DEFAULT-->
+          <div class="Default box card p-3" id="default_div">
+            <div class="row">
+              <label class="col-sm-3 mt-2">Default Value</label>
+              <div class="col-sm-7 margin-bottom mb-1">
+                <input id="def_val" name="def_val" type="text" placeholder="Enter Default Value"
+                  class="form-control input-md" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="mb-3 mt-3" id="extract" name="extract">
+              Extract
+              <select id="extract" class="form-select">
+                <option>Extract Values</option>
+                <option value="first">FIRST</option>
+                <option value="last">LAST</option>
+                <option value="all">ALL</option>
+                <option value="unique">UNIQUE</option>
+              </select>
+            </div>
+
+            <button type="button" onclick="show_logop()" class="btn btn-outline-dark mb-2 mt-2">
+              Add New Rule
+            </button>
+
+            <!-- LOGICAL OPERATOR FOR NEXT RULE-->
+            <div class="mb-3 mt-3" id="logop_div" style="display: none">
+              Logical Operator
+              <select id="logop_val" class="form-select">
+                <option>Select Logical Operator</option>
+                <option value="AND">AND</option>
+                <option value="OR">OR</option>
+                <option value="NOT">NOT</option>
+              </select>
+              <button id="new_rule" type="button" onclick="save_newrule()" class="btn btn-outline-dark mb-2 mt-2">
+                Define Next Rule
+              </button>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" id="save_btn" data-bs-dismiss="modal" onclick="save_refval()"
+                class="btn btn-primary">
+                Save
+              </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create RuleModal Ends-->
+    <script>
+      $(document).ready(function () {
+        $(".form-select")
+          .change(function () {
+            $(this)
+              .find("option:selected")
+              .each(function () {
+                var optionValue = $(this).attr("value");
+                if (optionValue) {
+                  $(".box")
+                    .not("." + optionValue)
+                    .hide();
+                  $("." + optionValue).show();
+                } else {
+                  $(".box").hide();
+                }
+              });
+          })
+          .change();
+      });
+    </script>
+    <script>
+      function OnloadFunction() {
+        $(".delete").hide();
+        //when the Add Field button is clicked
+        $("#add").click(function (e) {
+          $(".delete").fadeIn("1500");
+          //Append a new row of code to the "#items" div
+          $("#items").append(
+            '<div class="next-referval col-8 mb-1"><input id="textinput" name="textinput" type="text" placeholder="Enter Reference Value" class="form-control reff input-md"></div>'
+          );
+        });
+        $("body").on("click", ".delete", function (e) {
+          $(".next-referval").last().remove();
+        });
+
+        $(".form-select")
+          .change(function () {
+            $(this)
+              .find("option:selected")
+              .each(function () {
+                var optionValue = $(this).attr("value");
+                if (optionValue) {
+                  $(".box")
+                    .not("." + optionValue)
+                    .hide();
+                  $("." + optionValue).show();
+                } else {
+                  $(".box").hide();
+                }
+              });
+          })
+          .change();
+      }
+
+      $(document).ready(OnloadFunction);
+    </script>
+    {% comment %}
+    <script>
+      $(document).ready(function () {
+        $(".delete").hide();
+        //when the Add Field button is clicked
+        $("#add").click(function (e) {
+          $(".delete").fadeIn("1500");
+          //Append a new row of code to the "#items" div
+          $("#items").append(
+            '<div class="next-referval col-8 mb-1"><input id="textinput" name="textinput" type="text" placeholder="Enter Reference Value" class="form-control reff input-md"></div>'
+          );
+        });
+        $("body").on("click", ".delete", function (e) {
+          $(".next-referval").last().remove();
+        });
+      });
+    </script>
+    {% endcomment %}
+
+    <script>
+      function hideDiv() {
+        var v = document.getElementById("matcher_div");
+        if (v.style.display != "none") {
+          v.style.display = "none";
+        }
+      }
+    </script>
+    <script>
+      var btn_id_var;
+      function btn_id(btn) {
+        btn_id_var = btn.id;
+        console.log(btn_id_var);
+      }
+      // Save New Rule
+      var rules_arr = [];
+      function save_newrule() {
+        var asschar =
+          document.getElementsByClassName("asschar")[btn_id_var - 1].value;
+        var rule_type = $("#rule_type :selected").attr("value");
+        var logop = $("#logop_val :selected").attr("value");
+        var extract = $("#extract :selected").attr("value");
+
+        if (rule_type == "Matcher") {
+          //console.log("matcher")
+          var ref_val_len = document.getElementsByClassName("reff").length;
+
+          var ref_val = [];
+          for (let i = 0; i < ref_val_len; i++) {
+            var ref = document.getElementsByClassName("reff")[i].value;
+            ref_val.push(ref);
+          }
+
+          //console.log(ref_val);
+          rule = {
+            rule_type: rule_type,
+            ref_val: ref_val,
+            extract: extract,
+            logop: logop
+          };
+          var output = JSON.stringify(rule);
+
+          //console.log(output);
+          //console.log(rule);
+        } else if (rule_type == "Regex") {
+          var regex = $("#regex :selected").attr("value");
+          var reg_str = document.getElementById("reg_str").value;
+          var pattern = regex.concat(reg_str);
+          console.log(pattern);
+          rule = {
+            rule_type: rule_type,
+            ref_val: pattern,
+            extract: extract,
+            logop: logop
+          };
+          var output2 = JSON.stringify(rule);
+          //console.log(output2);
+        }
+        if (rule_type == "Format") {
+          var format = $("#format :selected").attr("value");
+          console.log(format);
+          rule = {
+            rule_type: rule_type,
+            ref_val: format,
+
+            extract: extract,
+            logop: logop
+          };
+          console.log(rule);
+        }
+        if (rule_type == "Position") {
+          var key_val = document.getElementById("key_val").value;
+          var start_pos = document.getElementById("start_pos").value;
+          var char_nos = document.getElementById("char_nos").value;
+          ref_val = {
+            key_val: key_val,
+            start_pos: start_pos,
+            char_nos: char_nos,
+          };
+          rule = {
+            rule_type: rule_type,
+            ref_val: ref_val,
+
+            extract: extract,
+            logop: logop,
+          };
+          console.log(ref_val);
+        }
+        if (rule_type == "Default") {
+          var def_val = document.getElementById("def_val").value;
+          rule = {
+            rule_type: rule_type,
+            ref_val: def_val,
+
+            extract: extract,
+            logop: logop,
+          };
+          console.log(rule);
+        }
+        rules_arr.push(rule);
+        console.log(rules_arr);
+
+        $("#rule_modal").load(
+          window.location.href + " #rule_modal",
+          function () {
+            OnloadFunction();
+          }
+        );
+
+        //   $("#new_rule").click(function (evt) {
+        //     $(".box").load(".rule_type")
+        //     evt.preventDefault();
+        //     url = "{% url 'rule_exe' %}";
+        //     $.ajax({
+        //       url: url,
+        //       type: "POST",
+        //       dataType: "application/json",
+        //       beforeSend: function (xhr) {
+        //         xhr.setRequestHeader('X-CSRFToken', '{{csrf_token}}');
+        //       },
+        //       data: {
+        //         "pclass": pclass,
+        //         "pclass": pclass,
+        //       },
+        //     });
+        //   })
+      }
+
+      function save_refval() {
+        var asschar =
+          document.getElementsByClassName("asschar")[btn_id_var - 1].value;
+        var logop = "NA"
+        var rule_type = $("#rule_type :selected").attr("value");
+        var extract = $("#extract :selected").attr("value");
+        if (rule_type == "Matcher") {
+          //console.log("matcher")
+          var ref_val_len = document.getElementsByClassName("reff").length;
+
+          var ref_val = [];
+          for (let i = 0; i < ref_val_len; i++) {
+            var ref = document.getElementsByClassName("reff")[i].value;
+            ref_val.push(ref);
+          }
+
+          //console.log(ref_val);
+          rule = {
+            rule_type: rule_type,
+            ref_val: ref_val,
+            extract: extract,
+            logop: logop
+          };
+          var output = JSON.stringify(rule);
+
+          //console.log(output);
+          //console.log(rule);
+        } else if (rule_type == "Regex") {
+          var regex = $("#regex :selected").attr("value");
+          var reg_str = document.getElementById("reg_str").value;
+          var pattern = regex.concat(reg_str);
+          //console.log(pattern);
+          rule = {
+            rule_type: rule_type,
+            ref_val: pattern,
+            extract: extract,
+          };
+          var output2 = JSON.stringify(rule);
+          //console.log(output2);
+        }
+        if (rule_type == "Format") {
+          var format = $("#format :selected").attr("value");
+          console.log(format);
+          rule = {
+            rule_type: rule_type,
+            ref_val: format,
+            extract: extract,
+            logop: logop
+          };
+          //console.log(rule);
+        }
+        if (rule_type == "Position") {
+          var key_val = document.getElementById("key_val").value;
+          var start_pos = document.getElementById("start_pos").value;
+          var char_nos = document.getElementById("char_nos").value;
+          ref_val = {
+            key_val: key_val,
+            start_pos: start_pos,
+            char_nos: char_nos,
+          };
+          rule = {
+            rule_type: rule_type,
+            ref_val: ref_val,
+            extract: extract,
+            logop: logop
+          };
+          //console.log(ref_val);
+        }
+        if (rule_type == "Default") {
+          var def_val = document.getElementById("def_val").value;
+          rule = {
+            rule_type: rule_type,
+            ref_val: def_val,
+            extract: extract,
+            logop: logop
+          };
+          //console.log(rule);
+        }
+
+        pclass = $("#pclass :selected").attr("value");
+        //asschar_json = {
+        //  asschar_name: asschar,
+        //  rule: rule
+        //}
+
+        rules_arr.push(rule);
+        console.log("This is the final array");
+        console.log(rules_arr);
+        asschar_rules = {
+          asschar_name: asschar,
+          rules_lst: rules_arr,
+        };
+
+        //var asschar_rule = JSON.stringify(asschar_json)
+        var rules_arr_str = JSON.stringify(asschar_rules);
+
+        //console.log(asschar_rule);
+        document.getElementById(btn_id_var).disabled = true;
+        url = "{% url 'save_ruledef' %}";
+        $.ajax({
+          url: url,
+          type: "POST",
+          dataType: "application/json",
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", "{{csrf_token}}");
+          },
+          data: {
+            pclass: pclass,
+            //"asschar_json": asschar_rule,
+            rules_lst: rules_arr_str,
+          },
+        });
+        rules_arr = [];
+        $("#rule_modal").load(
+          window.location.href + " #rule_modal",
+          function () {
+            OnloadFunction();
+          }
+        );
+      }
+    </script>
+    <script></script>
+    <script>
+      function show_logop() {
+        document.getElementById("save_btn").disabled = true;
+        console.log("Button clicked");
+        var x = document.getElementById("logop_div");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+    </script>
+
+    {% endblock body %}
+  </div>
+</div>

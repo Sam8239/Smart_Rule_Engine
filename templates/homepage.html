@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block body %}
+<h3>
+  <small style="padding-left: 30px" class="navbar navbar-light bg-light text-muted">Homepage</small>
+</h3>
+<div class="row m-2">
+  <div style="width:83%; margin:auto;" class="form-floating btn-group">
+    <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="myInput">
+    <label style="margin-left:14px;" for="myInput">Search</label>
+  </div>
+</div>
+<table style="width:80%; margin:auto;" id="myTable"
+  class="table table table-hover text-center mt-3 table-light table-striped">
+  <thead>
+    <tr class="table-primary">
+      <th scope="col">SNo</th>
+      <th scope="col">SuperGroup</th>
+      <th scope="col">Group</th>
+      <th scope="col">Module</th>
+      <th scope="col">Class</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for data in results %}
+    <tr>
+      <td>{{forloop.counter}}</td>
+      <td>{{data.supergroup}}</td>
+      <td>{{data.group}}</td>
+      <td>{{data.module}}</td>
+      <td>{{data.pclass}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+  $(document).ready(function () {
+    // Table Search Starts
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tbody tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+    // Table Search Ends
+  });
+
+</script>
+
+{% endblock body %}

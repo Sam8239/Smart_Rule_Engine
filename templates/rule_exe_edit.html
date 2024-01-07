@@ -1,0 +1,122 @@
+{% extends 'base.html' %} {% block title %}Char Mapping{% endblock title %}
+{%block body %}
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<style>
+  .modal-body label {
+    width: 40%;
+  }
+</style>
+<h3>
+  <small style="padding-left: 30px" class="navbar navbar-light bg-light text-muted">Rule Execution Result</small>
+</h3>
+
+<div class="row m-0">
+  <div class="p-0">
+    <div class="container-fluid">
+      {% comment %}
+      <form>
+        {% endcomment %}
+        <div class="row mb-4 mt-3">
+          <div class="d-flex col-6">
+            <label class="w-25">Super Group</label>
+            <select id="supergroup" name="supergroup" class="form-select" required disabled="true">
+              <option value="{{editrec.supergroup}}">
+                {{editrec.supergroup}}
+              </option>
+            </select>
+          </div>
+          <div class="d-flex col-6">
+            <label class="w-25">Group</label>
+            <select id="group" name="group" class="form-select" required disabled="true">
+              <option value="{{editrec.group}}">{{editrec.group}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex row">
+          <div class="d-flex col-6">
+            <label class="w-25">Module</label>
+            <select id="module" name="module" class="form-select" required disabled="true">
+              <option value="{{editrec.module}}">{{editrec.module}}</option>
+            </select>
+          </div>
+          <div class="d-flex col-6">
+            <label class="w-25">Class</label>
+            <select id="pclass" name="class" class="form-select" required disabled="true">
+              <option value="{{editrec.pclass}}">{{editrec.pclass}}</option>
+            </select>
+          </div>
+        </div>
+        {% comment %}
+      </form>
+      {% endcomment %}
+    </div>
+    <div>
+    <div class="card m-5" style="width:90%;" >       
+      <div class="card-body" id="input_text" name="input_text">
+       <h5 class="card-title ">Input Text</h5>
+     {{input_text}}
+    </div>  
+    </div>
+      <!-- Table Starts -->
+      <style>
+        body {
+          counter-reset: section;
+        }
+
+        #sno::before {
+          counter-increment: section;
+          content: counter(section);
+        }
+      </style>
+      <div class="d-flex justify-content-center align-items-center">
+        <style>
+          body {
+            counter-reset: section;
+          }
+        
+          #sno::before {
+            counter-increment: section;
+            content: counter(section);
+          }
+        </style>
+        <table class="
+                  table table-hover
+                  text-center
+                  mt-3
+                  table-light table-striped w-50
+                ">
+          <thead>
+            <tr class="table-primary">
+              <th scope="col">S.No</th>
+              <th scope="col">Characteristics</th>
+              <th scope="col">Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for key,value in final_res.items %}
+            <tr>
+              <td id="sno"></td>
+              <td>{{key}}</td>
+              <td>{{value}}</td>
+            </tr>
+            {% endfor %} 
+            {% comment %} <tr>
+            
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+           
+            </tr> {% endcomment %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Ends -->
+    </div>
+  </div>
+</div>
+
+
+{%endblock body %}
