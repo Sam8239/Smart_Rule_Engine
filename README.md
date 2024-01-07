@@ -1,5 +1,5 @@
 
-# TCS Smart Rules Engine
+# Smart Rules Engine
 
 It is a Smart Rule Engine which takes data in a hierarchical way to define rules on differnt characteristics and executes them on the given input by the user to extract required information based on defined rules
 
