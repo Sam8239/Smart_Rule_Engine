@@ -13,7 +13,9 @@ html {
 }
 
 body {
-  /* background: rgb(44, 151, 194)!important; */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1713%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='url(%26quot%3b%23SvgjsLinearGradient1714%26quot%3b)'%3e%3c/rect%3e%3cpath d='M 0%2c175 C 57.6%2c154.2 172.8%2c67.8 288%2c71 C 403.2%2c74.2 460.8%2c186.8 576%2c191 C 691.2%2c195.2 748.8%2c84.4 864%2c92 C 979.2%2c99.6 1036.8%2c229.6 1152%2c229 C 1267.2%2c228.4 1382.4%2c117 1440%2c89L1440 560L0 560z' fill='rgba(37%2c 109%2c 184%2c 1)'%3e%3c/path%3e%3cpath d='M 0%2c465 C 96%2c430.8 288%2c289.8 480%2c294 C 672%2c298.2 768%2c478.2 960%2c486 C 1152%2c493.8 1344%2c363.6 1440%2c333L1440 560L0 560z' fill='rgba(64%2c 137%2c 217%2c 1)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1713'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3clinearGradient x1='50%25' y1='100%25' x2='50%25' y2='0%25' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1714'%3e%3cstop stop-color='%230e2a47' offset='0'%3e%3c/stop%3e%3cstop stop-color='rgba(5%2c 138%2c 223%2c 0.88)' offset='1'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e");
+  background-size: cover;
+  background-attachment: fixed;
   padding: 0px;
   margin: 0px;
   font-family: 'Nunito', sans-serif;
@@ -41,52 +43,24 @@ button {
   font-weight: 700;
 }
 
-.main-div {
-  width: 300px;
-  margin: 0 auto;
-  /* margin-top: 60px; */
-  padding: 20px;
-  position: relative;
+.form-label {
+  margin-bottom: 0;
+  font-weight: 600;
 }
 
-.main-div input {
-  display: block;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background: #fff;
-  /* padding: 15px; */
-  outline: none;
-  width: 100%;
-  height: 10% !important;
-  margin-bottom: 20px;
-  transition: 0.3s;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
+.login {
+  width: 350px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.094);
+  border-radius: 20px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.578);
+  backdrop-filter: blur(4.3px);
 }
 
-.main-div input:focus,
-select2:focus {
-  border: 1px solid rgb(0, 0, 0) !important;
-}
-
-.formbtn {
+.center {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-footer {
-  position: relative;
-}
-
-.center1 {
-  margin-top: 7%;
-  border-radius: 7px;
-  background-color: #f2f2f2;
-  margin-left: auto;
-  margin-right: auto;
-  width: 25%;
-  padding: 10px;
 }
 
 /* Select2 Starts */

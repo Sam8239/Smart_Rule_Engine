@@ -7,7 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-  <title>Smart Rule Engine</title>
+  <title>Smart Rule Engine | Login</title>
+  <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/48/000000/gears.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -39,45 +40,47 @@
 </header>
 
 <body>
-  <!-- your content here... -->
-  <div id="login_div" class="main-div center1">
-    <h2 style="text-align:center" class="mb-4">LOGIN</h2>
-    <form method='POST' action="/" autocomplete="off">
-      {% csrf_token %}
-      <div class="form-group">
-        <label for="cname" class="form-label">Country</label>
+  <div class="center" style="height: 90%;">
+    <div class="login">
+      <h2 class="mb-4 text-center fw-bold">LOGIN</h2>
+      <form method='POST' action="/" autocomplete="on">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="cname" class="form-label">Country</label>
 
-        <select name="country" class="form-control mb-3" required id="cname">
-          <option selected disabled="true">Choose Country</option>
-          {% for datadisplay in country %}
-          <option>{{datadisplay}}</option>
+          <select name="country" class="form-control" required id="cname">
+            <option selected disabled="true">Choose Country</option>
+            {% for datadisplay in country %}
+            <option>{{datadisplay}}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+        <div class="form-group mt-2 ">
+          <label class="form-label">Username</label>
+          <input name="username" type="text" class="form-control" placeholder="Username" required />
+        </div>
+        <div class="form-group mt-2">
+          <label class="form-label">Password</label>
+          <input name="password" type="password" class="form-control mb-3" placeholder="Password" required />
+        </div>
+
+        <div class="center mb-4 mt-4">
+          <button class="btn btn-success" type="submit">Login</button>
+          <a href="/" class="btn btn-primary ms-4" role="button" aria-disabled="true">Sign Up</a>
+        </div>
+        <div class="mb-3">
+          {% if messages %}
+          {% for msg in messages %}
+          <b class="center text-warning">{{msg}}</b>
           {% endfor %}
-        </select>
-
-      </div>
-      <div class="form-group">
-        <label class="mt-2 form-label">Username</label>
-        <input name="username" type="text" class="form-control" placeholder="Username" required />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input name="password" type="password" class="form-control mb-3" placeholder="Password" required />
-      </div>
-
-      <div class="formbtn mb-2 mt-4">
-        <button class="btn btn-success m-2" type="submit">Login</button>
-        <a href="/" class="btn btn-primary m-2" role="button" aria-disabled="true">Sign Up</a>
-      </div>
-
-      {% if messages %}
-      {% for msg in messages %}
-      <b class="d-flex justify-content-center" style="color: red;">{{msg}}</b>
-      {% endfor %}
-      {% endif %}
-      <small style="text-align:center" class="form-text text-muted">Can't Login? <a href="https://www.google.com">Click
-          here</a></small>
-    </form>
-
+          {% endif %}
+        </div>
+        <h6 class="text-center m-0">Can't Login?
+          <a href="https://www.google.com" class="text-light">Click here</a>
+        </h6>
+      </form>
+    </div>
   </div>
 </body>
 

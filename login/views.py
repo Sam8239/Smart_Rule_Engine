@@ -20,7 +20,7 @@ from pathlib import Path
 import re
 
 
-# LOGIN PAGE VIEW
+# AUTHENTICATION STARTS
 def login(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -39,7 +39,7 @@ def login(request):
             user_id = Userdetails.objects.filter(Username=username).values("id").first()
             if user_id == None:
                 messages.success(request, "User Does Not Exist")
-                return redirect("showlist")
+                return redirect("/")
 
             else:
                 uname = (
@@ -64,13 +64,13 @@ def login(request):
                 return redirect("homepage")
             if password != pword.get("Password"):
                 messages.success(request, "Password is Invalid")
-                return redirect("showlist")
+                return redirect("/")
             if cname.get("CountryCode") != country:
                 messages.success(request, "Country is Invalid")
-                return redirect("showlist")
+                return redirect("/")
         except Userdetails.DoesNotExist as identifier:
             messages.success(request, "Username / Password Invalid")
-            return redirect("showlist")
+            return redirect("/")
 
     # Render country list into dropdown menu on login page
     with open("static/types.json", "r") as file:
@@ -86,6 +86,37 @@ def logout(request):
     response.delete_cookie("username")
     response.delete_cookie("country")
     return response
+
+
+# AUTHENTICATION ENDS
+
+
+# ROLE MASTER STARTS
+def role_master(request):
+    users = Userdetails.objects.all()
+    with open("static/types.json", "r") as file:
+        file_data = json.load(file)
+        country = file_data["country"]
+    return render(request, "rolemaster.html", {"users": users, "country": country})
+
+
+def add_user(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        country = request.POST["country"]
+        x = Userdetails(Username=username, Password=password, CountryCode=country)
+        x.save()
+        return redirect("/rolemaster")
+
+
+def del_user(request, username):
+    user_to_delete = Userdetails.objects.get(username=username)
+    user_to_delete.delete()
+    return redirect("/rolemaster")
+
+
+# ROLE MASTER ENDS
 
 
 # RULE DEFINITION PAGE
@@ -138,8 +169,6 @@ def rule_def(request):
 
 
 # RULE DEF EDIT PAGE
-
-
 def rule_def_edit(request, cid):
     try:
         editrec = pClass.objects.get(id=cid)
@@ -312,8 +341,6 @@ def del_rule_type(request):
 
 
 # SAVE RULE DEFINITION AJAX DJANGO -> JSON
-
-
 def save_rule(request):
     if request.method == "POST":
         supergroup1 = request.POST.get("supergroup")
@@ -517,31 +544,7 @@ def del_param(request, id):
     return redirect("/refresh")
 
 
-def role_master(request):
-    users = Userdetails.objects.all()
-    with open("static/types.json", "r") as file:
-        file_data = json.load(file)
-        country = file_data["country"]
-    return render(request, "rolemaster.html", {"users": users, "country": country})
-
-
-def add_user(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        country = request.POST["country"]
-        x = Userdetails(Username=username, Password=password, CountryCode=country)
-        x.save()
-        return redirect("/rolemaster")
-
-
-def del_user(request, username):
-    user_to_delete = Userdetails.objects.get(username=username)
-    user_to_delete.delete()
-    return redirect("/rolemaster")
-
-
-# PARAMETER DEFINITION PAGE
+# PARAMETER DEFINITION STARTS
 
 
 def parameters(request):
@@ -595,15 +598,9 @@ def del_parameter(request, param_id):
     return redirect("/parameters")
 
 
-def showlist_user(request):  # Render country list into dropdown menu on login page
-    results = Country.objects.all()
-    with open("static/types.json", "r") as file:
-        file_data = json.load(file)
-        countries = file_data["country"]
-    return render(request, "rolemaster.html", {"country": countries})
+# PARAMETER DEFINITION ENDS
 
-
-# CHARACTER DEFINITON PAGES
+# CHARACTER DEFINITON STARTS
 
 
 def char_map_edit(request):
@@ -763,7 +760,9 @@ def deletesgmc(request, id):  # Delete CharMaster record from table
     return redirect("char_mapping")
 
 
-# ASSIGNED CHARACTER DEFINITION PAGE
+# CHARACTER DEFINITON ENDS
+
+# ASSIGN CHARACTER DEFINITION STARTS
 
 
 def asschardef(request):
@@ -774,7 +773,9 @@ def asschardef(request):
     return render(request, "asschardef.html")
 
 
-# RULE DEFINITION PAGE
+# ASSIGN CHARACTER DEFINITION ENDS
+
+# RULE DEFINITION STARTS
 
 
 def save_json(request):
@@ -792,11 +793,12 @@ def save_json(request):
 
 
 flag_redirect = 0
-# RULE EXECUTION PAGE
+# RULE DEFINITION ENDS
+
+# RULE EXECUTION STARTS
 
 
-def rule_exe(request):  # Rule Execution page
-    # print (results)
+def rule_exe(request):
     global flag_redirect
     supergroup = pSupergroup.objects.all().distinct("supergroup")
     group = pGroup.objects.all().distinct("group")
@@ -932,8 +934,6 @@ def while_loop(rules, logop):
 
 
 # LOGICAL OPERATOR ON MULTIPLE RULE TYPES
-
-
 def logical_operator(rule1_output, rule2_output, logical_op):
     if logical_op == "AND":
         if len(rule1_output) == 0 or len(rule2_output) == 0:
@@ -1130,3 +1130,6 @@ def save_pclass(request):
 
     print(json_obj)
     return HttpResponse("The json is served!")
+
+
+# RULE EXECUTION ENDS
