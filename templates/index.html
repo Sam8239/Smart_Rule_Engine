@@ -44,18 +44,25 @@
     <h2 style="text-align:center" class="mb-4">LOGIN</h2>
     <form method='POST' action="/" autocomplete="off">
       {% csrf_token %}
-      <label class="form-label">Country</label>
-      <select name="country" class="form-control mb-3 js-example-basic-single" required id="cname">
-        <option selected disabled="true">Choose Country</option>
-        {% for datadisplay in country %}
-        <option>{{datadisplay}}</option>
-        {% endfor %}
-      </select>
+      <div class="form-group">
+        <label for="cname" class="form-label">Country</label>
 
-      <label class="mt-2 form-label">Username</label>
-      <input name="username" type="text" class="form-control" placeholder="Username" required />
-      <label class="form-label">Password</label>
-      <input name="password" type="password" class="form-control mb-3" placeholder="Password" required />
+        <select name="country" class="form-control mb-3" required id="cname">
+          <option selected disabled="true">Choose Country</option>
+          {% for datadisplay in country %}
+          <option>{{datadisplay}}</option>
+          {% endfor %}
+        </select>
+
+      </div>
+      <div class="form-group">
+        <label class="mt-2 form-label">Username</label>
+        <input name="username" type="text" class="form-control" placeholder="Username" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input name="password" type="password" class="form-control mb-3" placeholder="Password" required />
+      </div>
 
       <div class="formbtn mb-2 mt-4">
         <button class="btn btn-success m-2" type="submit">Login</button>
@@ -72,8 +79,6 @@
     </form>
 
   </div>
-
-  <script src="static/js/index2.js"></script>
 </body>
 
 </html>
