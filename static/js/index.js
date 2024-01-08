@@ -8,6 +8,9 @@ $(document).ready(function () {
 	$("#select4").select2();
 	$("#select5").select2();
 	$("#select6").select2();
+	$(".tclick tr").click(function () {
+	window.location.href = $(this).data("url");
+});
 });
 
 function display_array() {
@@ -80,8 +83,5 @@ $select6.on("change", function () {
 	$("#exampleModalLabel").text(value);
 });
 
-$(function () {
-	$("tbody tr").click(function () {
-		window.location.href = $(this).data("url");
-	});
-});
+
+
