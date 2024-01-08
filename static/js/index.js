@@ -79,10 +79,6 @@ $select6.on("change", function () {
 	value = $("#select6 :selected").val(); // The value of the selected option
 	$("#exampleModalLabel").text(value);
 });
-// Select2
-$(document).ready(function () {
-	
-});
 
 $(function () {
 	$("table tr").click(function () {

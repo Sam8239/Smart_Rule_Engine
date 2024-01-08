@@ -68,7 +68,7 @@
   </thead>
   <tbody>
     {% for user in users %}
-    <tr href="rolemaster">
+    <tr data-url="/rolemaster">
       <th scope="row">{{forloop.counter}}</th>
       <td>{{user.Username}}</td>
       <td>
@@ -76,8 +76,6 @@
       </td>
       <td>Admin</td>
       <td>{{user.CountryCode}}</td>
-
-      </form>
       </td>
     </tr>
     {% endfor %}

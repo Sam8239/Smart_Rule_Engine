@@ -21,10 +21,7 @@ import re
 
 
 # LOGIN PAGE VIEW
-
-
-def login(request):  # Login page
-    
+def login(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -520,13 +517,11 @@ def del_param(request, id):
     return redirect("/refresh")
 
 
-def list_users(request):
-    # country = Country.objects.all()
+def role_master(request):
     users = Userdetails.objects.all()
     with open("static/types.json", "r") as file:
         file_data = json.load(file)
         country = file_data["country"]
-    print(country)
     return render(request, "rolemaster.html", {"users": users, "country": country})
 
 
