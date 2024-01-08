@@ -81,7 +81,7 @@ $select6.on("change", function () {
 });
 
 $(function () {
-	$("table tr").click(function () {
+	$("tbody tr").click(function () {
 		window.location.href = $(this).data("url");
 	});
 });

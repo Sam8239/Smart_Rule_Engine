@@ -30,7 +30,7 @@ def login(request):
         # DELETE THIS CODE AFTER CREATION OF FIRST USER
         if username == "admin" and password == "admin" and country == "IN":
             # Set cookies to store user information
-            response = redirect("homepage")
+            response = redirect("home")
             response.set_cookie("username", username)
             response.set_cookie("country", country)
             return response
@@ -61,7 +61,7 @@ def login(request):
             if password == pword.get("Password") and country == cname.get(
                 "CountryCode"
             ):
-                return redirect("homepage")
+                return redirect("home")
             if password != pword.get("Password"):
                 messages.success(request, "Password is Invalid")
                 return redirect("/")

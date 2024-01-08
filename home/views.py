@@ -6,7 +6,7 @@ from login.models import CharMaster, pSupergroup, pGroup, pModule, pClass
 # Create your views here.
 
 
-def homepage(request):
+def home(request):
     if request.COOKIES.get("username"):
         charmaster = CharMaster.objects.all()
         supergroup = pSupergroup.objects.all()
@@ -16,7 +16,7 @@ def homepage(request):
         results = pClass.objects.all()
         return render(
             request,
-            "homepage.html",
+            "home.html",
             {
                 "charmaster": charmaster,
                 "supergroup": supergroup,

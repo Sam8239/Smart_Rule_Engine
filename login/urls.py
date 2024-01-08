@@ -7,7 +7,7 @@ import home
 urlpatterns = [
     path("", views.login, name="login"),
     path("logout", views.logout, name="logout"),
-    path("homepage", home.views.homepage, name="homepage"),
+    path("home", home.views.home, name="home"),
     # Master Starts
     ## Rolemaster Starts
     path("rolemaster", views.role_master, name="role_master"),
