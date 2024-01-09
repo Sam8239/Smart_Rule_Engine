@@ -1,3 +1,9 @@
+// Loader
+const loader = document.getElementsByClassName("loader-div")
+window.addEventListener("load", ()=> {
+	loader[0].style.display = "none"
+})
+
 // Select2
 $(document).ready(function () {
 	$(".js-example-basic-single").select2();
