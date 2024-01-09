@@ -97,7 +97,7 @@ def role_master(request):
     with open("static/types.json", "r") as file:
         file_data = json.load(file)
         country = file_data["country"]
-    return render(request, "rolemaster.html", {"users": users, "country": country})
+    return render(request, "role_master.html", {"users": users, "country": country})
 
 
 def add_user(request):
@@ -107,13 +107,13 @@ def add_user(request):
         country = request.POST["country"]
         x = Userdetails(Username=username, Password=password, CountryCode=country)
         x.save()
-        return redirect("/rolemaster")
+        return redirect("/role_master")
 
 
 def del_user(request, username):
     user_to_delete = Userdetails.objects.get(username=username)
     user_to_delete.delete()
-    return redirect("/rolemaster")
+    return redirect("/role_master")
 
 
 # ROLE MASTER ENDS
@@ -547,8 +547,8 @@ def del_param(request, id):
 # PARAMETER DEFINITION STARTS
 
 
-def parameters(request):
-    return render(request, "parameter.html")
+def parameter_def(request):
+    return render(request, "parameter_def.html")
 
 
 def add_parameters(request):
@@ -580,7 +580,7 @@ def list_parameters(request):
 
     return render(
         request,
-        "parameter.html",
+        "parameter_def.html",
         {
             "param_types": param_types,
             "parameters": parameters,
@@ -595,7 +595,7 @@ def list_parameters(request):
 def del_parameter(request, param_id):
     parameter_to_delete = ParamDetails.objects.get(id=param_id)
     parameter_to_delete.delete()
-    return redirect("/parameters")
+    return redirect("/parameters_def")
 
 
 # PARAMETER DEFINITION ENDS

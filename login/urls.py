@@ -10,8 +10,21 @@ urlpatterns = [
     path("home", home.views.home, name="home"),
     # Master Starts
     ## Rolemaster Starts
-    path("rolemaster", views.role_master, name="role_master"),
+    path("role_master", views.role_master, name="role_master"),
+    path("add_user", views.add_user, name="add_user"),
     ## Rolemaster Ends
+    ## Parameter Definition Starts
+    path("parameter_def", views.list_parameters, name="list_parameters"),
+    path("add_parameters", views.add_parameters, name="add_parameters"),
+    # path("paramdef", views.paramdef, name="paramdef"),
+    # path("paramdef/insert_param", views.paramdef, name="add_paramdef"),
+    # path("paramdef/del_param/<int:id>/", views.del_param, name="del_paramdef"),
+    path(
+        "parameters/del_parameter/<int:param_id>/",
+        views.del_parameter,
+        name="del_parameter",
+    ),
+    ## Parameter Definition Ends
     ## Character Definition Starts
     path("chardef", views.list_param, name="chardef"),
     path("refresh", views.list_param, name="refresh"),
@@ -19,19 +32,6 @@ urlpatterns = [
     path("del_g", views.del_g, name="del_g"),
     path("del_m", views.del_m, name="del_m"),
     ## Character Definition Ends
-    ## Parameter Definition Starts
-    path("paramdef", views.paramdef, name="paramdef"),
-    path("paramdef/insert_param", views.paramdef, name="add_paramdef"),
-    path("paramdef/del_param/<int:id>/", views.del_param, name="del_paramdef"),
-    path("add_user", views.add_user, name="add_user"),
-    path("add_parameters", views.add_parameters, name="add_parameters"),
-    path("parameters", views.list_parameters, name="list_parameters"),
-    path(
-        "parameters/del_parameter/<int:param_id>/",
-        views.del_parameter,
-        name="del_parameter",
-    ),
-    ## Parameter Definition Ends
     # Master Ends
     # Character Mapping Starts
     path("char-mapping", views.char_mapping, name="char_mapping"),
