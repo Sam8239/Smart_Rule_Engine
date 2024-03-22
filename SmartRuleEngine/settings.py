@@ -79,7 +79,7 @@ WSGI_APPLICATION = "SmartRuleEngine.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "1",
+        "NAME": "tcs",
         "PASSWORD": "admin",
         "USER": "postgres",
         "HOST": "localhost",

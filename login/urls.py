@@ -14,19 +14,19 @@ urlpatterns = [
     path("add_user", views.add_user, name="add_user"),
     ## Rolemaster Ends
     ## Parameter Definition Starts
-    path("parameter_def", views.list_parameters, name="list_parameters"),
+    path("parameters", views.parameters, name="parameters"),
     path("add_parameters", views.add_parameters, name="add_parameters"),
-    # path("paramdef", views.paramdef, name="paramdef"),
-    # path("paramdef/insert_param", views.paramdef, name="add_paramdef"),
-    # path("paramdef/del_param/<int:id>/", views.del_param, name="del_paramdef"),
     path(
         "parameters/del_parameter/<int:param_id>/",
         views.del_parameter,
         name="del_parameter",
     ),
+    # path("paramdef", views.paramdef, name="paramdef"),
     ## Parameter Definition Ends
     ## Character Definition Starts
     path("chardef", views.list_param, name="chardef"),
+    path("paramdef/insert_param", views.paramdef, name="add_paramdef"),
+    path("paramdef/del_param/<int:id>/", views.del_param, name="del_paramdef"),
     path("refresh", views.list_param, name="refresh"),
     path("del_sg", views.del_sg, name="del_sg"),
     path("del_g", views.del_g, name="del_g"),

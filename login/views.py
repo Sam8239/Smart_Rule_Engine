@@ -75,9 +75,9 @@ def login(request):
     # Render country list into dropdown menu on login page
     with open("static/types.json", "r") as file:
         file_data = json.load(file)
-        results = file_data["country"]
+        country = file_data["country"]
 
-    return render(request, "index.html", {"country": results})
+    return render(request, "index.html", {"country": country})
 
 
 def logout(request):
@@ -547,8 +547,28 @@ def del_param(request, id):
 # PARAMETER DEFINITION STARTS
 
 
-def parameter_def(request):
-    return render(request, "parameter_def.html")
+def parameters(request):
+    parameters = ParamDetails.objects.all()
+    supergroup = CharMaster.objects.all().distinct("pSuperGroup")
+    group = CharMaster.objects.all().distinct("pGroup")
+    module = CharMaster.objects.all().distinct("pModule")
+    pclass = CharMaster.objects.all().distinct("pClass")
+    with open("static/types.json", "r") as file:
+        file_data = json.load(file)
+        param_types = file_data["param_type"]
+
+    return render(
+        request,
+        "parameters.html",
+        {
+            "param_types": param_types,
+            "parameters": parameters,
+            "supergroup": supergroup,
+            "group": group,
+            "module": module,
+            "pclass": pclass,
+        },
+    )
 
 
 def add_parameters(request):
@@ -568,34 +588,10 @@ def add_parameters(request):
         return redirect("/parameters")
 
 
-def list_parameters(request):
-    parameters = ParamDetails.objects.all()
-    supergroup = CharMaster.objects.all().distinct("pSuperGroup")
-    group = CharMaster.objects.all().distinct("pGroup")
-    module = CharMaster.objects.all().distinct("pModule")
-    pclass = CharMaster.objects.all().distinct("pClass")
-    with open("static/types.json", "r") as file:
-        file_data = json.load(file)
-        param_types = file_data["param_type"]
-
-    return render(
-        request,
-        "parameter_def.html",
-        {
-            "param_types": param_types,
-            "parameters": parameters,
-            "supergroup": supergroup,
-            "group": group,
-            "module": module,
-            "pclass": pclass,
-        },
-    )
-
-
 def del_parameter(request, param_id):
     parameter_to_delete = ParamDetails.objects.get(id=param_id)
     parameter_to_delete.delete()
-    return redirect("/parameters_def")
+    return redirect("/parameters")
 
 
 # PARAMETER DEFINITION ENDS

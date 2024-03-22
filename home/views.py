@@ -62,4 +62,4 @@ def rolemaster(request):
 
 
 def parameter(request):
-    return render(request, "parameter_def")
+    return render(request, "parameters")

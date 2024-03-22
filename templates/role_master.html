@@ -7,7 +7,7 @@
 
 <div class="container">
 
-  <h2 class="mt-3">ROLE MASTER</h2>
+  <h2 class="mt-3">MANAGE USERS</h2>
 
 
   <!-- Button trigger modal -->
@@ -46,8 +46,8 @@
               </select>
             </div>
             <div class="center">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary ms-4">Submit</button>
+              <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary ms-4 rounded-pill">Submit</button>
             </div>
           </form>
         </div>
@@ -85,14 +85,4 @@
     </tbody>
   </table>
 </div>
-
-<script>
-
-  $(document).ready(function () {
-    $("#cname").select2({
-      dropdownParent: $("#exampleModal")
-    });
-  });
-
-</script>
 {% endblock body %}

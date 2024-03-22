@@ -1,22 +1,38 @@
-// Loader
+// Loader Starts
 const loader = document.getElementsByClassName("loader-div")
-window.addEventListener("load", ()=> {
+window.addEventListener("load", () => {
 	loader[0].style.display = "none"
 })
+// Loader Ends
 
-// Select2
 $(document).ready(function () {
+	// Select2 Starts
 	$(".js-example-basic-single").select2();
-	$("#cname").select2();
+	$("#cname").select2({
+		dropdownParent: $("#exampleModal")
+	});
 	$("#select1").select2();
 	$("#select2").select2();
 	$("#select3").select2();
 	$("#select4").select2();
 	$("#select5").select2();
 	$("#select6").select2();
+	// Select2 Ends
+
+	// Onclick Table Rows Starts
 	$(".tclick tr").click(function () {
-	window.location.href = $(this).data("url");
-});
+		window.location.href = $(this).data("url");
+	});
+	// Onclick Table Rows Ends
+
+	// Table Search Starts
+	$("#myInput").on("keyup", function () {
+		var value = $(this).val().toLowerCase();
+		$("tbody tr").filter(function () {
+			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		});
+	});
+	// Table Search Ends
 });
 
 function display_array() {
@@ -88,6 +104,27 @@ $select6.on("change", function () {
 	value = $("#select6 :selected").val(); // The value of the selected option
 	$("#exampleModalLabel").text(value);
 });
+
+// Confirm Deletion Starts
+document.addEventListener("DOMContentLoaded", function () {
+	var deleteForm = document.getElementById("deleteForm");
+	var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+	// Set the parameter ID when the modal is shown
+	$('#confirmDeleteModal').on('show.bs.modal', function (event) {
+		confirmDeleteBtn.dataset.parameterId = $(event.relatedTarget).data('parameter-id');
+	});
+
+	// Handle the confirmation and form submission
+	confirmDeleteBtn.addEventListener("click", function () {
+		var parameterId = this.dataset.parameterId;
+		// Set the form action with the correct parameter ID
+		deleteForm.action = "parameters/del_parameter/" + parameterId + "/";
+		deleteForm.submit();
+	});
+});
+
+// Confirm Deletion Ends
 
 
 

@@ -126,6 +126,6 @@ a {
 
 /* Select2 Ends */
 
-tbody tr {
+ .tclick{
   cursor: pointer;
 }

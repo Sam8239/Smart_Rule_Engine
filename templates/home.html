@@ -7,7 +7,7 @@
     id="myInput">
 
   <h4 class="mt-3 text-start">
-    CHARACTERS
+    CATEGORIES
   </h4>
 
   <table class="table table-hover text-center table-light table-striped">
@@ -33,19 +33,5 @@
     </tbody>
   </table>
 </div>
-
-<script>
-  $(document).ready(function () {
-    // Table Search Starts
-    $("#myInput").on("keyup", function () {
-      var value = $(this).val().toLowerCase();
-      $("tbody tr").filter(function () {
-        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-      });
-    });
-    // Table Search Ends
-  });
-
-</script>
 
 {% endblock body %}

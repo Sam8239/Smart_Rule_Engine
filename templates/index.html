@@ -17,7 +17,8 @@
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
   <!-- Jquery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
 
   <!-- Select2 -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -59,7 +60,7 @@
         <div class="form-group">
           <label for="cname" class="form-label">Country</label>
 
-          <select name="country" class="form-control" required id="cname">
+          <select name="country" class="form-control" required id="select1" autocomplete="off">
             <option selected disabled="true">Choose Country</option>
             {% for datadisplay in country %}
             <option>{{datadisplay}}</option>
