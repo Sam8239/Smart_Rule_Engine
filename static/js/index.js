@@ -8,9 +8,10 @@ window.addEventListener("load", () => {
 $(document).ready(function () {
 	// Select2 Starts
 	$(".js-example-basic-single").select2();
-	$("#cname").select2({
+	$("#cname-modal").select2({
 		dropdownParent: $("#exampleModal")
 	});
+	$("#cname").select2();
 	$("#select1").select2();
 	$("#select2").select2();
 	$("#select3").select2();
@@ -110,18 +111,21 @@ document.addEventListener("DOMContentLoaded", function () {
 	var deleteForm = document.getElementById("deleteForm");
 	var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 
-	// Set the parameter ID when the modal is shown
-	$('#confirmDeleteModal').on('show.bs.modal', function (event) {
-		confirmDeleteBtn.dataset.parameterId = $(event.relatedTarget).data('parameter-id');
-	});
+	if (confirmDeleteBtn) {
+		// Set the parameter ID when the modal is shown
+		$('#confirmDeleteModal').on('show.bs.modal', function (event) {
+			confirmDeleteBtn.dataset.parameterId = $(event.relatedTarget).data('parameter-id');
+		});
 
-	// Handle the confirmation and form submission
-	confirmDeleteBtn.addEventListener("click", function () {
-		var parameterId = this.dataset.parameterId;
-		// Set the form action with the correct parameter ID
-		deleteForm.action = "parameters/del_parameter/" + parameterId + "/";
-		deleteForm.submit();
-	});
+		// Handle the confirmation and form submission
+		confirmDeleteBtn.addEventListener("click", function () {
+			var parameterId = this.dataset.parameterId;
+			// Set the form action with the correct parameter ID
+			deleteForm.action = "parameters/del_parameter/" + parameterId + "/";
+			deleteForm.submit();
+		});
+	}
+
 });
 
 // Confirm Deletion Ends

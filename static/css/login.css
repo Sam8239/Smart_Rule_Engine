@@ -124,8 +124,12 @@ a {
   align-items: center;
 }
 
+.select2-selection__arrow {
+  top: auto !important;
+}
+
 /* Select2 Ends */
 
- .tclick{
+.tclick {
   cursor: pointer;
 }

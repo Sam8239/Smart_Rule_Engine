@@ -26,51 +26,25 @@ def login(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
         country = request.POST.get("country")
-        global uname, cname  # username and country name
-        # DELETE THIS CODE AFTER CREATION OF FIRST USER
-        if username == "admin" and password == "admin" and country == "IN":
+
+        # Validation Starts
+        user = Userdetails.objects.filter(Username=username).first()
+
+        if user is None:
+            messages.success(request, "Username Does Not Exist")
+        elif user.Password != password:
+            messages.success(request, "Password is Invalid")
+        elif user.CountryCode != country:
+            messages.success(request, "Country is Invalid")
+        else:
             # Set cookies to store user information
             response = redirect("home")
             response.set_cookie("username", username)
             response.set_cookie("country", country)
             return response
 
-        try:
-            user_id = Userdetails.objects.filter(Username=username).values("id").first()
-            if user_id == None:
-                messages.success(request, "User Does Not Exist")
-                return redirect("/")
-
-            else:
-                uname = (
-                    Userdetails.objects.filter(id=user_id.get("id"))
-                    .values("Username")
-                    .first()
-                )
-                cname = (
-                    Userdetails.objects.filter(id=user_id.get("id"))
-                    .values("CountryCode")
-                    .first()
-                )
-                pword = (
-                    Userdetails.objects.filter(id=user_id.get("id"))
-                    .values("Password")
-                    .first()
-                )
-
-            if password == pword.get("Password") and country == cname.get(
-                "CountryCode"
-            ):
-                return redirect("home")
-            if password != pword.get("Password"):
-                messages.success(request, "Password is Invalid")
-                return redirect("/")
-            if cname.get("CountryCode") != country:
-                messages.success(request, "Country is Invalid")
-                return redirect("/")
-        except Userdetails.DoesNotExist as identifier:
-            messages.success(request, "Username / Password Invalid")
-            return redirect("/")
+        return redirect("/")
+        # Validation Ends
 
     # Render country list into dropdown menu on login page
     with open("static/types.json", "r") as file:
