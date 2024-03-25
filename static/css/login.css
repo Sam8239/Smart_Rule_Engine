@@ -126,6 +126,11 @@ a {
 
 .select2-selection__arrow {
   top: auto !important;
+  right: 8px !important;
+}
+
+.select2-selection__rendered {
+  padding-left: 12px !important;
 }
 
 /* Select2 Ends */

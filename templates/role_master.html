@@ -37,12 +37,18 @@
               <input id="password" required type="password" class="form-control" name="password" placeholder="Password"
                 autocomplete="on" />
             </div>
+            <div class="form-group mt-2">
+              <label class="form-label" for="role">Role</label>
+              <select required name="role" class="form-select" id="role" autocomplete="off">
+                <option>User</option>
+                <option>Admin</option>
+              </select>
+            </div>
             <div class="form-group mt-2 mb-4">
               <label class="form-label" for="cname-modal">Country</label>
-              <select required name="country" class="form-control mb-3" id="cname-modal" autocomplete="off">
-                <option selected disabled="true">Choose Country</option>
-                {% for datadisplay in country %}
-                <option>{{datadisplay}}</option>
+              <select name="country" class="form-control mb-3" id="cname-modal" autocomplete="off">
+                {% for c in country %}
+                <option>{{c}}</option>
                 {% endfor %}
               </select>
             </div>
@@ -78,7 +84,7 @@
       <tr>
         <th>{{forloop.counter}}</th>
         <td>{{user.Username}}</td>
-        <td>{{user.}}</td>
+        <td>{{user.Role}}</td>
         <td>{{user.CountryCode}}</td>
         </td>
         <td>

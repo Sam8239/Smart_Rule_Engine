@@ -80,6 +80,7 @@ def add_user(request):
         username = request.POST["username"]
         password = request.POST["password"]
         country = request.POST["country"]
+        role = request.POST["role"]
         x = Userdetails(Username=username, Password=password, CountryCode=country)
         x.save()
         return redirect("/role_master")
