@@ -112,6 +112,10 @@ a {
   justify-content: center;
 }
 
+select {
+  height: 37.52px !important;
+}
+
 /* Select2 Starts */
 
 .select2 {
