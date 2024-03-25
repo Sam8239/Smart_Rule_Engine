@@ -108,20 +108,29 @@ $select6.on("change", function () {
 
 // Confirm Deletion Starts
 document.addEventListener("DOMContentLoaded", function () {
-	var deleteForm = document.getElementById("deleteForm");
 	var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 
 	if (confirmDeleteBtn) {
 		// Set the parameter ID when the modal is shown
 		$('#confirmDeleteModal').on('show.bs.modal', function (event) {
 			confirmDeleteBtn.dataset.parameterId = $(event.relatedTarget).data('parameter-id');
+			confirmDeleteBtn.dataset.userId = $(event.relatedTarget).data('user-id');
 		});
 
 		// Handle the confirmation and form submission
 		confirmDeleteBtn.addEventListener("click", function () {
 			var parameterId = this.dataset.parameterId;
+			var userId = this.dataset.userId;
 			// Set the form action with the correct parameter ID
-			deleteForm.action = "parameters/del_parameter/" + parameterId + "/";
+			if (parameterId != "undefined") {
+				var deleteForm = document.getElementById("deleteForm_" + parameterId);
+				deleteForm.action = "parameters/del_parameter/" + parameterId + "/";
+
+			}
+			else if (userId) {
+				var deleteForm = document.getElementById("deleteForm_" + userId);
+				deleteForm.action = "user/del_user/" + userId + "/";
+			}
 			deleteForm.submit();
 		});
 	}

@@ -12,6 +12,11 @@ urlpatterns = [
     ## Rolemaster Starts
     path("role_master", views.role_master, name="role_master"),
     path("add_user", views.add_user, name="add_user"),
+    path(
+        "user/del_user/<int:user_id>/",
+        views.del_user,
+        name="del_user",
+    ),
     ## Rolemaster Ends
     ## Parameter Definition Starts
     path("parameters", views.parameters, name="parameters"),
@@ -21,13 +26,11 @@ urlpatterns = [
         views.del_parameter,
         name="del_parameter",
     ),
-    # path("paramdef", views.paramdef, name="paramdef"),
+    path("paramdef", views.paramdef, name="paramdef"),
     ## Parameter Definition Ends
     ## Character Definition Starts
     path("chardef", views.list_param, name="chardef"),
     path("paramdef/insert_param", views.paramdef, name="add_paramdef"),
-    path("paramdef/del_param/<int:id>/", views.del_param, name="del_paramdef"),
-    path("refresh", views.list_param, name="refresh"),
     path("del_sg", views.del_sg, name="del_sg"),
     path("del_g", views.del_g, name="del_g"),
     path("del_m", views.del_m, name="del_m"),

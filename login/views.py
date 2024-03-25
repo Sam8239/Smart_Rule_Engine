@@ -65,6 +65,7 @@ def logout(request):
 # AUTHENTICATION ENDS
 
 
+# MASTER STARTS
 # ROLE MASTER STARTS
 def role_master(request):
     users = Userdetails.objects.all()
@@ -84,8 +85,8 @@ def add_user(request):
         return redirect("/role_master")
 
 
-def del_user(request, username):
-    user_to_delete = Userdetails.objects.get(username=username)
+def del_user(request, user_id):
+    user_to_delete = Userdetails.objects.get(id=user_id)
     user_to_delete.delete()
     return redirect("/role_master")
 
@@ -508,14 +509,6 @@ def list_param_charmap(request):
     params = {"params": CharMaster.objects.all()}
 
     return render(request, "charmap.html", params)
-
-
-def del_param(request, id):
-    # param_to_delete = CharMaster.objects.get(id=id)
-    param_to_delete = pClass.objects.get(id=id)
-    param_to_delete.delete()
-
-    return redirect("/refresh")
 
 
 # PARAMETER DEFINITION STARTS

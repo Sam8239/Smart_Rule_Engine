@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% block body %}
+{% extends 'base.html' %}
+{% block body %}
 <style>
   .pw {
     -webkit-text-security: disc;
@@ -15,7 +16,7 @@
     Add New User
   </button>
 
-  <!-- Modal -->
+  <!-- Add New User Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -55,6 +56,9 @@
     </div>
   </div>
 
+  <input style="height: 40px;" class="form-control mt-3" type="text" placeholder="Search" aria-label="Search"
+    id="myInput">
+
   <h4 class="mt-3 text-start">
     EXISTING USERS
   </h4>
@@ -62,27 +66,55 @@
   <table class="table table-hover text-center table-light table-striped">
     <thead>
       <tr class="table-primary">
-        <th scope="col">ID</th>
+        <th scope="col">S.NO</th>
         <th scope="col">Username</th>
-        <th scope="col">Password</th>
         <th scope="col">Role</th>
         <th scope="col">Country</th>
+        <th scope="col">Delete</th>
       </tr>
     </thead>
     <tbody>
       {% for user in users %}
       <tr>
-        <th scope="row">{{forloop.counter}}</th>
+        <th>{{forloop.counter}}</th>
         <td>{{user.Username}}</td>
-        <td>
-          <div class="pw">{{user.Password}}</div>
-        </td>
-        <td>Admin</td>
+        <td>{{user.}}</td>
         <td>{{user.CountryCode}}</td>
+        </td>
+        <td>
+          <form method="POST" id="deleteForm_{{ user.id }}" class="d-inline">
+            {% csrf_token %}
+            <button class="btn" type="button" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+              data-user-id="{{ user.id }}">
+              <i class="fa fa-trash text-danger float-right"></i>
+            </button>
+          </form>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
+
+<!-- Delete Confirmation Modal Starts -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the user?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Confirmation Modal Ends -->
 {% endblock body %}

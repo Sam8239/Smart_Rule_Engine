@@ -9,7 +9,7 @@
     Add New Parameter
   </button>
 
-  <!-- Modal -->
+  <!-- Add New Parameters Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -67,22 +67,24 @@
   <table class="table table-hover text-center table-light table-striped">
     <thead class="table-primary">
       <tr>
+        <th scope="col">S.NO</th>
         <th scope="col">Type</th>
         <th scope="col">Code</th>
         <th scope="col">Description</th>
         <th scope="col">Activity Status</th>
-        <th scope="col">Remove</th>
+        <th scope="col">Delete</th>
       </tr>
     </thead>
     <tbody>
       {% for parameter in parameters %}
       <tr>
-        <td scope="row">{{parameter.pType}}</td>
+        <td>{{forloop.counter}}</td>
+        <td>{{parameter.pType}}</td>
         <td>{{parameter.pCode}}</td>
         <td>{{parameter.pDesc}}</td>
         <td>{{parameter.pActivity}}</td>
         <td>
-          <form method="POST" id="deleteForm" class="d-inline">
+          <form method="POST" id="deleteForm_{{ parameter.id }}" class="d-inline">
             {% csrf_token %}
             <button class="btn" type="button" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
               data-parameter-id="{{ parameter.id }}">
@@ -95,9 +97,6 @@
       {% endfor %}
     </tbody>
   </table>
-
-
-
 </div>
 
 <!-- Delete Confirmation Modal Starts -->
